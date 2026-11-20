@@ -8,7 +8,8 @@ import { getChallenge, listChallenges } from "@/lib/data";
 
 export async function generateStaticParams() {
   const challenges = await listChallenges();
-  return challenges.map(({ slug }) => ({ slug }));
+  // Cache Components require at least one parameter even for an empty catalog.
+  return challenges.length ? challenges.map(({ slug }) => ({ slug })) : [{ slug: "__empty__" }];
 }
 
 export async function generateMetadata({ params }: PageProps<"/retos/[slug]">): Promise<Metadata> {
