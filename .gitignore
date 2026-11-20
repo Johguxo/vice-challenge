@@ -1,0 +1,27 @@
+# deps / build
+node_modules/
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# env y secretos
+.env
+.env*.local
+.env.production*
+
+# vercel / supabase local
+.vercel/
+supabase/.branches/
+supabase/.temp/
+
+# capturas de revisión visual
+.shots/
+
+# claude local
+.claude/settings.local.json
+
+# misc
+.DS_Store
+*.log
