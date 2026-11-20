@@ -2,6 +2,7 @@ import { ArrowLeft, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { ShareChallenge } from "@/components/share-challenge";
 import { formatTime, modes, verification } from "@/lib/challenges";
 import { getChallenge, listChallenges } from "@/lib/data";
@@ -19,13 +20,8 @@ export async function generateMetadata({ params }: PageProps<"/retos/[slug]">): 
   return { title: challenge.title, description: challenge.objective };
 }
 
-export default async function ChallengePage({ params }: PageProps<"/retos/[slug]">) {
-  const { slug } = await params;
-  const challenge = await getChallenge(slug);
-  if (!challenge) notFound();
-
-  const level = verification[challenge.verification];
-
+// El armazón (volver) es estático; lo que depende del slug va en <Suspense> para que la navegación sea instantánea.
+export default function ChallengePage({ params }: PageProps<"/retos/[slug]">) {
   return (
     <main id="contenido" className="page-frame py-8 lg:py-12">
       <Link
@@ -34,6 +30,36 @@ export default async function ChallengePage({ params }: PageProps<"/retos/[slug]
       >
         <ArrowLeft aria-hidden="true" className="size-5" /> Volver a los retos
       </Link>
+      <Suspense fallback={<ChallengeSkeleton />}>
+        <ChallengeDetail params={params} />
+      </Suspense>
+    </main>
+  );
+}
+
+function ChallengeSkeleton() {
+  return (
+    <div aria-hidden="true" className="mt-4">
+      <div className="bg-surface h-4 w-56 rounded-sm" />
+      <div className="bg-surface mt-4 h-20 max-w-xl rounded-sm md:h-32" />
+      <div className="bg-surface mt-4 h-12 max-w-lg rounded-sm" />
+      <div className="mt-8 grid gap-8 lg:grid-cols-[1.1fr_1fr]">
+        <div className="bg-surface h-72 rounded-sm" />
+        <div className="bg-surface h-72 rounded-md" />
+      </div>
+    </div>
+  );
+}
+
+async function ChallengeDetail({ params }: { params: PageProps<"/retos/[slug]">["params"] }) {
+  const { slug } = await params;
+  const challenge = await getChallenge(slug);
+  if (!challenge) notFound();
+
+  const level = verification[challenge.verification];
+
+  return (
+    <>
       <header className="border-line mt-4 grid items-end gap-6 border-b pb-8 md:grid-cols-[1fr_15rem]">
         <div className="min-w-0">
           <p className="text-ink-muted text-sm font-semibold">
@@ -127,6 +153,6 @@ export default async function ChallengePage({ params }: PageProps<"/retos/[slug]
           )}
         </section>
       </div>
-    </main>
+    </>
   );
 }
