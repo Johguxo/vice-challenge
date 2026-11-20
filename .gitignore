@@ -25,3 +25,10 @@ supabase/.temp/
 # misc
 .DS_Store
 *.log
+
+# testing / misc de Next
+/coverage
+.pnp
+.pnp.*
+*.pem
+!.env.example

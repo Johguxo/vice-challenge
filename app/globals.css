@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  --color-night: #0b0612;
+  --color-surface: #150c21;
+  --color-surface-2: #21132f;
+  --color-line: #3a2550;
+  --color-ink: #fff4f8;
+  --color-ink-muted: #bba8cc;
+  --color-ink-faint: #8a7699;
+  --color-vice: #ff2e93;
+  --color-vice-deep: #c3166c;
+  --color-sunset: #ff8a3d;
+  --color-marker: #ffe14d;
+  --color-tide: #2ce6e0;
+  --color-dusk: #8b5cf6;
+  --color-ok: #3ee08f;
+  --color-warn: #ffb020;
+  --color-bad: #ff4d5e;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+
+  --shadow-glow-vice: 0 0 0 1px #ff2e9355, 0 8px 32px -8px #ff2e9380;
+  --shadow-glow-marker: 0 0 0 1px #ffe14d55, 0 8px 32px -8px #ffe14d70;
+}
+
+@theme inline {
+  --font-display: var(--font-archivo), ui-sans-serif, sans-serif;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-marker: var(--font-permanent-marker), cursive;
+}
+
+@utility font-wide {
+  font-stretch: 125%;
+}
+
+@utility font-semiwide {
+  font-stretch: 112%;
+}
+
+@utility bg-sunset {
+  background-image: linear-gradient(
+    180deg,
+    #2a0f4a 0%,
+    #6b1a6e 38%,
+    #c3166c 68%,
+    #ff8a3d 100%
+  );
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-night);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-vice);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
