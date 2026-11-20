@@ -129,3 +129,7 @@ Degradado de atardecer (solo fondos de hero, OG images y tarjetas de resultado):
 - Logo/tipografía/arte oficial de GTA o Rockstar, o personajes de los trailers.
 - Lorem ipsum, "Usuario123", estadísticas inventadas.
 - Scroll horizontal a 390px, palabras largas en español que desbordan ("Verificación", "participaciones") — usar `break-words`/`hyphens-auto`.
+
+## 10. Ilustración costera
+
+La home usa una ilustración original en CSS. El sol se recorta sobre la silueta de edificios y las líneas del agua. Una capa oscura protege el contraste del texto en el lado izquierdo. La escena es decorativa y el sticker identifica el reto semanal.

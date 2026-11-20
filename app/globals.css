@@ -42,13 +42,7 @@
 }
 
 @utility bg-sunset {
-  background-image: linear-gradient(
-    180deg,
-    #2a0f4a 0%,
-    #6b1a6e 38%,
-    #c3166c 68%,
-    #ff8a3d 100%
-  );
+  background-image: linear-gradient(180deg, #2a0f4a 0%, #6b1a6e 38%, #c3166c 68%, #ff8a3d 100%);
 }
 
 html {
@@ -73,4 +67,138 @@ body {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+@utility page-frame {
+  width: 100%;
+  max-width: 1248px;
+  margin-inline: auto;
+  padding-inline: 16px;
+
+  @media (width >= 40rem) {
+    padding-inline: 24px;
+  }
+}
+
+@utility action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding-inline: 16px;
+  font-weight: 700;
+  transition:
+    background-color 150ms ease-out,
+    color 150ms ease-out;
+}
+
+.coastal-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.coastal-sun {
+  position: absolute;
+  inset-block-end: 24%;
+  inset-inline-end: 12%;
+  width: clamp(150px, 28vw, 390px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 19px,
+      color-mix(in srgb, var(--color-vice-deep) 40%, transparent) 20px 22px
+    ),
+    linear-gradient(var(--color-marker), var(--color-sunset));
+}
+
+.coastal-skyline {
+  position: absolute;
+  inset: auto 0 22%;
+  height: 42%;
+  background: var(--color-surface-2);
+  clip-path: polygon(
+    0 100%,
+    0 78%,
+    5% 78%,
+    5% 56%,
+    10% 56%,
+    10% 72%,
+    14% 72%,
+    14% 44%,
+    19% 44%,
+    19% 24%,
+    23% 24%,
+    23% 68%,
+    29% 68%,
+    29% 40%,
+    32% 40%,
+    32% 30%,
+    35% 30%,
+    35% 78%,
+    44% 78%,
+    44% 60%,
+    49% 60%,
+    49% 42%,
+    55% 42%,
+    55% 66%,
+    61% 66%,
+    61% 31%,
+    64% 31%,
+    64% 20%,
+    68% 20%,
+    68% 71%,
+    74% 71%,
+    74% 51%,
+    80% 51%,
+    80% 63%,
+    86% 63%,
+    86% 41%,
+    92% 41%,
+    92% 72%,
+    97% 72%,
+    97% 58%,
+    100% 58%,
+    100% 100%
+  );
+}
+
+.coastal-water {
+  position: absolute;
+  inset: auto 0 0;
+  height: 22%;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 8px,
+      color-mix(in srgb, var(--color-sunset) 28%, transparent) 9px 10px
+    ),
+    linear-gradient(var(--color-surface-2), var(--color-night));
+}
+
+.coastal-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, var(--color-night), transparent 92%),
+    linear-gradient(0deg, var(--color-night), transparent 48%);
+}
+
+.rules-panel {
+  clip-path: polygon(
+    0 0,
+    28% 5px,
+    59% 0,
+    100% 8px,
+    100% calc(100% - 6px),
+    76% 100%,
+    53% calc(100% - 5px),
+    22% 100%,
+    0 calc(100% - 7px)
+  );
 }

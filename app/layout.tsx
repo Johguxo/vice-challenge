@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Geist, Geist_Mono, Permanent_Marker } from "next/font/google";
 import "./globals.css";
+import { SiteFooter, SiteHeader } from "@/components/site-shell";
 
 const archivo = Archivo({
   variable: "--font-archivo",
@@ -32,7 +33,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="es"
       className={`${archivo.variable} ${geistSans.variable} ${geistMono.variable} ${marker.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <a
+          href="#contenido"
+          className="action bg-vice text-night sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-20"
+        >
+          Saltar al contenido
+        </a>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
+      </body>
     </html>
   );
 }
