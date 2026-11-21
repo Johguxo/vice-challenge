@@ -1,69 +1,29 @@
-# Ideas y apps de ViceApp
+# Apps e ideas de CHIS Explorer
 
-**Nombres provisionales:** la plataforma se llama **ViceApp**. Sus apps son **Retos** (`/challenges`, hoy con la marca "Vice Challenges") y **Diario** (`/journal`). Las rutas van en inglés y lo que lee el usuario, en español.
+CHIS Explorer es la portada del diario de aventuras de Team Chis. Vice Challenges conserva sus rutas y su identidad en Retos. Las rutas de apps van en inglés y los textos visibles en español.
 
-> Este archivo guarda las ideas que vamos a probar. Cada idea es una **app** dentro de la misma web: comparte la cuenta, el diseño (`docs/DESIGN.md`), Supabase y el deploy.
-> Para añadir una idea, copia la plantilla del final. Si una idea arranca, pasa de "Idea" a "En construcción" y luego a "Viva".
+## Rutas actuales
 
-## Cómo se organiza la web
+| Ruta                   | Qué muestra                                                             |
+| ---------------------- | ----------------------------------------------------------------------- |
+| `/`                    | Portada de CHIS Explorer, cuaderno abierto y descubrimientos destacados |
+| `/journal`             | Muestra navegable de Mi diario                                          |
+| `/journal/stories`     | Mural de historias y diarios de ejemplo                                 |
+| `/journal/[username]`  | Diario de ejemplo de un jugador                                         |
+| `/challenges`          | Portada de Vice Challenges                                              |
+| `/challenges/explorar` | Catálogo de retos con filtros                                           |
+| `/challenges/[slug]`   | Reglas y ranking de un reto                                             |
 
-| Ruta                   | Qué es                                                   | Estado          |
-| ---------------------- | -------------------------------------------------------- | --------------- |
-| `/`                    | Hub interno: un botón por app                            | Viva            |
-| `/challenges`          | Portada de Retos (reto semanal, cómo funciona)           | Viva            |
-| `/challenges/explorar` | Lista de retos con filtros                               | Viva            |
-| `/challenges/[slug]`   | Detalle de reto: reglas y ranking                        | Viva            |
-| `/journal`             | **Diario**: feed de la comunidad + pregunta del día      | En construcción |
-| `/journal/[username]`  | Diario de un jugador: línea de tiempo por día de partida | En construcción |
+Cada app vive bajo `app/<app>/`. Los componentes y servicios compartidos viven en `components/` y `lib/`. Conserva los enlaces publicados con redirecciones al mover rutas.
 
-Reglas de rutas:
+## Etapas del diario
 
-- **Una carpeta por app** en `app/<app>/`. Las URLs van sin prefijo `/app/`: los enlaces se comparten en TikTok y Discord, y cuanto más cortos, mejor.
-- Las rutas antiguas no se rompen: si una URL cambia, se añade un `redirect` permanente en `next.config.ts`. Por ejemplo, `/retos` redirige a `/challenges`.
-- El código compartido entre apps (cuenta, perfil, escena del hero, tarjetas para compartir) vive en `components/` y `lib/`. Lo que es de una sola app vive junto a su ruta.
-- La portada `/` es el hub: una tarjeta por app (`apps` en `app/page.tsx`) y la del header (`components/app-nav.tsx`). Una app nueva suma una entrada en los dos.
+1. **Diario privado.** Completar Supabase Auth, crear, editar y eliminar entradas, subir capturas a almacenamiento privado y guardar recuerdos. Las nuevas entradas serán privadas por defecto.
+2. **Historias de Leonida.** Publicación voluntaria, perfiles opcionales, enlaces compartibles, los controles de comunidad y exportación de páginas en formato vertical.
+3. **Mi exploración.** Álbumes, lugares y categorías creados por el jugador, actividades, búsqueda y filtros.
+4. **Eventos de Leonida.** Módulo independiente con inscripciones, búsqueda y una bandera de activación.
 
-## Diario (`/journal`)
-
-**Estado:** En construcción. Primera versión visual con datos de ejemplo (`lib/journal.ts`); falta Supabase, publicar entradas y la página de cada entrada.
-**En una frase:** un diario público donde cada jugador va contando lo que le pasa en GTA VI mientras juega: locuras, momentos épicos, fails y retos superados.
-
-### Por qué
-
-- Retos da picos de actividad cuando sale un reto. El Diario da algo que contar **todos los días**, aunque no estés compitiendo.
-- Es contenido que la gente ya graba y sube a redes. Aquí queda ordenado en el tiempo y con su historia.
-- Se conecta con Challenges: cuando te aprueban una marca, aparece sola en tu diario como un hito.
-
-### Primera versión (lo más simple que se pueda ver)
-
-1. **Entrada de diario:** texto corto, como mucho una captura o un enlace a un clip (YouTube, Twitch, TikTok o Streamable), fecha y etiquetas opcionales (`#persecución`, `#fail`, `#playa`…).
-2. **Mi diario** en `/journal/[username]`: una línea de tiempo vertical con las entradas agrupadas por día de partida, tipo bitácora.
-3. **Feed** en `/journal`: lo último de toda la comunidad.
-4. **Hitos automáticos:** un reto completado y aprobado aparece en el diario con un estilo especial, como un sello o una pegatina.
-5. **Compartir:** cada entrada tiene su URL `/journal/e/[id]` y una imagen OG propia.
-
-### Fuera de la primera versión
-
-Comentarios, seguidores, notificaciones, rachas y vídeo subido a nuestro propio almacenamiento.
-
-### Ideas de diseño
-
-- Estética de **cuaderno o álbum de viaje** sobre el atardecer: entradas como polaroids o recortes pegados con cinta, fechas en la fuente marker y pegatinas para los hitos.
-- La línea de tiempo se anima con scroll (`reveal`), siguiendo las reglas de movimiento de `DESIGN.md` §6.
-- Las mismas reglas de propiedad intelectual: nada de arte oficial, logos ni personajes. Las capturas son del propio jugador.
-
-### Datos (borrador para Supabase)
-
-`journal_entries` (id, user_id, body, media_url, clip_url, tags text[], played_on date, challenge_submission_id nullable, visibility `public|private`, created_at).
-
-- RLS: cualquiera lee las entradas públicas; solo el autor crea, edita y borra las suyas.
-- Las entradas reutilizan `reports` para moderar.
-
-### Decisiones pendientes del equipo
-
-- ¿Las entradas son públicas por defecto?
-- Nombre definitivo. Por ahora la plataforma es "ViceApp" y esta app es "Diario"; los dos se pueden cambiar.
-- Cuándo pasa la marca visible (logo, `<title>`, imágenes OG) de "Vice Challenges" a "ViceApp".
+La portada y la muestra usan ilustraciones originales. El mural y los diarios por jugador usan datos de ejemplo de `lib/journal.ts`.
 
 ---
 

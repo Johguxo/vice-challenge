@@ -966,3 +966,215 @@ body {
       0 0 18px var(--color-vice);
   }
 }
+
+/* CHIS Explorer: an open travel notebook on a dusk-colored surface. */
+.chis-wordmark {
+  font-family: var(--font-marker);
+  font-size: clamp(1rem, 3.9vw, 1.55rem);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.chis-wordmark span:first-child {
+  color: var(--color-marker);
+}
+
+.chis-home {
+  background: radial-gradient(ellipse 85% 500px at 50% 0, var(--color-line), transparent), var(--color-night);
+}
+
+.chis-book {
+  --book-edge: color-mix(in srgb, var(--color-paper) 57%, var(--color-paper-muted));
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--book-edge);
+  border-radius: 6px 12px 12px 6px;
+  background: var(--color-paper);
+  color: var(--color-paper-ink);
+  box-shadow:
+    0 5px 0 -1px var(--book-edge),
+    0 9px 0 -2px var(--color-paper-muted),
+    0 20px 45px color-mix(in srgb, var(--color-night) 72%, transparent);
+}
+
+.chis-book,
+.chis-spread-content {
+  display: grid;
+  min-width: 0;
+}
+
+.chis-sheet {
+  min-width: 0;
+  padding: clamp(1.5rem, 4.5vw, 4.25rem);
+}
+
+.chis-cover,
+.chis-writing {
+  align-content: center;
+  background: radial-gradient(circle at 100% 0, var(--color-paper-line), transparent 65%);
+}
+
+.chis-cover {
+  border-radius: 6px 6px 0 0;
+}
+
+.chis-title {
+  max-width: 14ch;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.4rem, 5.15vw, 4.7rem);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+  text-wrap: balance;
+}
+
+.chis-hand {
+  font-family: var(--font-marker);
+  font-size: clamp(1.45rem, 3vw, 2.5rem);
+  line-height: 1.15;
+  color: color-mix(in srgb, var(--color-vice-deep) 73%, var(--color-paper-ink));
+}
+
+.chis-illustration {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 1.25rem;
+  min-height: 16rem;
+  border-block-start: 1px solid var(--book-edge);
+  background:
+    linear-gradient(180deg, var(--book-edge), transparent 18px),
+    repeating-linear-gradient(transparent 0 27px, var(--color-paper-line) 27px 28px);
+}
+
+.chis-hero-photo {
+  position: relative;
+  width: min(100%, 365px);
+  padding: 0.625rem;
+  background: color-mix(in srgb, var(--color-paper) 35%, white);
+  transform: rotate(-4deg);
+  box-shadow: 3px 6px 11px color-mix(in srgb, var(--color-paper-ink) 26%, transparent);
+}
+
+.chis-photo-tape {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: -10px;
+  inset-inline-start: 34%;
+  width: 32%;
+  height: 24px;
+  background: color-mix(in srgb, var(--color-sunset) 38%, var(--color-paper) 42%, transparent);
+  transform: rotate(7deg);
+  clip-path: polygon(0 0, 100% 7%, 97% 24%, 100% 52%, 96% 77%, 100% 100%, 0 96%, 3% 72%, 0 50%, 3% 25%);
+}
+
+.chis-postmark,
+.chis-margin-note {
+  justify-self: end;
+  color: var(--color-paper-muted);
+}
+
+.chis-postmark {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px dashed currentColor;
+  font-weight: 700;
+  font-size: 0.75rem;
+  transform: rotate(5deg);
+}
+
+.chis-primary {
+  background: var(--color-vice);
+  color: var(--color-night);
+}
+
+.chis-primary:hover {
+  background: var(--color-paper-ink);
+  color: var(--color-paper);
+}
+
+.chis-secondary {
+  color: var(--color-paper-ink);
+  border-color: var(--color-paper-muted);
+}
+
+.chis-secondary:hover {
+  background: var(--color-paper-line);
+}
+
+.chis-discovery {
+  display: block;
+  min-height: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-paper-line);
+  background: var(--color-paper);
+  color: var(--color-paper-ink);
+}
+
+.chis-discovery:hover {
+  background: color-mix(in srgb, var(--color-paper) 75%, var(--color-paper-line));
+}
+
+.chis-dark-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.chis-dark-link:hover:not(:disabled) {
+  color: var(--color-marker);
+}
+
+button.chis-dark-link:not(:disabled) {
+  cursor: pointer;
+}
+
+.chis-blank-page {
+  min-height: 12rem;
+}
+
+@media (width >= 48rem) {
+  .chis-book:not(.chis-page-turn),
+  .chis-spread-content {
+    grid-template-columns: 1.05fr 1fr;
+  }
+
+  .chis-cover {
+    border-radius: 6px 0 0 6px;
+  }
+
+  .chis-illustration {
+    border-block-start: 0;
+    border-inline-start: 1px solid var(--book-edge);
+    background:
+      linear-gradient(90deg, var(--book-edge), transparent 20px),
+      repeating-linear-gradient(transparent 0 27px, var(--color-paper-line) 27px 28px);
+    min-height: 28rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chis-page-turn {
+    animation: chis-page-in 180ms ease-out both;
+  }
+
+  .chis-hero-photo {
+    transition: transform 180ms ease-out;
+  }
+
+  .chis-hero-photo:hover {
+    transform: rotate(-1deg);
+  }
+}
+
+@keyframes chis-page-in {
+  from {
+    opacity: 0.75;
+    transform: translateY(4px);
+  }
+}

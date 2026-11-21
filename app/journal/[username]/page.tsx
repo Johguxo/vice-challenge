@@ -33,10 +33,10 @@ export default function DiaryPage({ params }: PageProps<"/journal/[username]">) 
     <main id="contenido">
       <PageBanner>
         <Link
-          href="/journal"
+          href="/journal/stories"
           className="text-ink/85 hover:text-ink inline-flex min-h-11 items-center gap-2 self-start text-sm font-semibold"
         >
-          <ArrowLeft aria-hidden="true" className="size-5" /> Volver al Diario
+          <ArrowLeft aria-hidden="true" className="size-5" /> Volver a las historias
         </Link>
         <Suspense fallback={<div aria-hidden="true" className="bg-surface/70 mt-4 h-40 max-w-xl rounded-sm" />}>
           <DiaryHeader params={params} />
@@ -69,7 +69,10 @@ async function DiaryHeader({ params }: { params: Params }) {
         <p className="mt-3 text-lg">{player.tagline}</p>
         <ul className="mt-4 flex flex-wrap gap-2">
           {stats.map(({ icon: Icon, label }) => (
-            <li key={label} className="bg-night/60 border-line inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-semibold backdrop-blur-sm">
+            <li
+              key={label}
+              className="bg-night/60 border-line inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-semibold backdrop-blur-sm"
+            >
               <Icon aria-hidden="true" className="text-marker size-4" /> {label}
             </li>
           ))}

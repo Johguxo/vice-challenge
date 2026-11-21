@@ -27,11 +27,10 @@ const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "ViceApp", template: "%s | ViceApp" },
-  openGraph: { siteName: "ViceApp", locale: "es_419", type: "website" },
+  title: { default: "CHIS Explorer", template: "%s | CHIS Explorer" },
+  openGraph: { siteName: "CHIS Explorer", locale: "es_419", type: "website" },
   twitter: { card: "summary_large_image" },
-  description:
-    "Apps de fans para GTA VI: retos de la comunidad y un diario de partida. Proyecto de fans no oficial.",
+  description: "Cada rincón de Leonida tiene una historia. Guarda la tuya. Un diario de aventuras de Team Chis.",
 };
 
 export const viewport: Viewport = { themeColor: "#0b0612" };
