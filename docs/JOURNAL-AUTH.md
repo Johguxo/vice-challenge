@@ -7,4 +7,4 @@ El diario usa Supabase Auth con correo y contraseña. El registro pide repetir l
 3. Para el piloto sin mensajes de confirmación, abre **Authentication → Sign In / Providers → Email**, desactiva **Confirm email** y guarda. Es un ajuste de todo el proyecto. Supabase permitirá que la cuenta nueva inicie sesión sin comprobar que controla ese correo.
 4. Prueba crear una cuenta nueva y volver a entrar con su contraseña. Las cuentas creadas solo con el flujo anterior de códigos pueden necesitar establecer una contraseña.
 
-El envío de un correo de recuperación o la reactivación de la confirmación requieren configurar la entrega de correo para los usuarios ajenos al equipo. El cuaderno de muestra sigue disponible sin sesión.
+El envío de un correo de recuperación o la reactivación de la confirmación requieren configurar la entrega de correo para los usuarios ajenos al equipo. La libreta local sigue disponible sin sesión. Se guarda en el perfil del navegador y no se sincroniza por cuenta.

@@ -1408,3 +1408,353 @@ body:has(> .journal-landing) > .site-header {
 .journal-access-error:empty {
   display: none;
 }
+
+/* Personal notebook. Only the note decorations cover the writing surface. */
+.notebook {
+  --notebook-rule: color-mix(in srgb, var(--color-paper-muted) 27%, var(--color-paper));
+  --notebook-ink: var(--color-paper-ink);
+  --notebook-row: 2rem;
+  --notebook-rows: 12;
+  position: relative;
+}
+
+.notebook-heading,
+.notebook-dialog-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.75rem 1.25rem;
+  margin-block-end: 1.5rem;
+}
+
+@media (width < 48rem) {
+  .notebook-heading {
+    background: url("/journal/pencil-motel.webp") right bottom / min(31%, 7rem) auto no-repeat;
+    padding-inline-end: min(32%, 7.5rem);
+  }
+}
+
+.notebook-heading p {
+  margin-block-start: 0.25rem;
+  color: var(--color-ink-muted);
+}
+
+.notebook-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 7vw, 4rem);
+  line-height: 0.98;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+}
+
+.notebook-spread {
+  display: grid;
+  min-width: 0;
+  border-radius: 0.4rem 0.75rem 0.75rem 0.4rem;
+  border: 1px solid var(--notebook-rule);
+  background: var(--color-paper);
+  color: var(--notebook-ink);
+  box-shadow:
+    0 4px 0 -1px var(--color-paper-line),
+    0 8px 0 -2px var(--color-paper-muted),
+    0 22px 34px color-mix(in srgb, var(--color-night) 60%, transparent);
+}
+
+.notebook-sheet {
+  min-width: 0;
+  padding: clamp(1rem, 3.3vw, 2.8rem);
+  background:
+    radial-gradient(ellipse at 12% 3%, color-mix(in srgb, var(--color-sunset) 10%, transparent), transparent 55%),
+    repeating-linear-gradient(
+      106deg,
+      transparent 0 22px,
+      color-mix(in srgb, var(--color-paper-muted) 3%, transparent) 22px 23px
+    ),
+    var(--color-paper);
+}
+
+.notebook-sheet[data-current="false"] {
+  display: none;
+}
+
+.notebook-page-number {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-block-end: 0.6rem;
+  font-family: var(--font-notebook-hand), cursive;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-paper-muted);
+}
+
+.notebook-writing-area {
+  position: relative;
+  min-width: 0;
+  border-inline-start: 1px solid color-mix(in srgb, var(--color-vice) 35%, var(--color-paper-line));
+  padding-inline-start: clamp(0.6rem, 1.6vw, 1.2rem);
+  background: repeating-linear-gradient(
+    transparent 0 calc(var(--notebook-row) - 1px),
+    var(--notebook-rule) calc(var(--notebook-row) - 1px) var(--notebook-row)
+  );
+}
+
+.notebook-lines {
+  display: block;
+  width: 100%;
+  height: calc(var(--notebook-rows) * var(--notebook-row));
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  resize: none;
+  overflow-wrap: break-word;
+  background: transparent;
+  color: var(--notebook-ink);
+  font:
+    600 1.55rem / var(--notebook-row) var(--font-notebook-hand),
+    cursive;
+}
+
+.notebook-lines::placeholder {
+  color: var(--color-paper-muted);
+}
+
+.notebook-lines:focus-visible {
+  outline-offset: 4px;
+}
+
+.notebook-piece {
+  position: absolute;
+  z-index: 1;
+  width: min(9.25rem, 56%);
+  border: 1px solid var(--notebook-rule);
+  border-radius: 0.15rem;
+  background: var(--color-paper);
+  box-shadow: 2px 4px 8px color-mix(in srgb, var(--notebook-ink) 30%, transparent);
+}
+
+.notebook-piece:focus-within {
+  z-index: 2;
+}
+
+.notebook-piece[data-kind="note"] {
+  background: color-mix(in srgb, var(--color-marker) 48%, var(--color-paper));
+}
+
+.notebook-piece[data-kind="sticker"] {
+  width: min(6rem, 44%);
+  background: color-mix(in srgb, var(--color-tide) 23%, var(--color-paper));
+}
+
+.notebook-piece-controls,
+.notebook-move-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notebook-piece button {
+  display: grid;
+  min-width: 44px;
+  min-height: 44px;
+  place-items: center;
+  color: var(--notebook-ink);
+  cursor: pointer;
+}
+
+.notebook-piece button:hover,
+.notebook-tools button:hover,
+.notebook-picker button:hover {
+  background: color-mix(in srgb, var(--color-paper-muted) 18%, transparent);
+}
+
+.notebook-drag-handle {
+  cursor: grab !important;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.notebook-drag-handle:active {
+  cursor: grabbing !important;
+}
+
+.notebook-move-buttons {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 100%;
+  z-index: 3;
+  width: max-content;
+  max-width: 100%;
+  flex-wrap: wrap;
+  background: var(--color-paper);
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--notebook-ink) 40%, transparent);
+}
+
+.notebook-piece textarea {
+  display: block;
+  width: 100%;
+  height: 5rem;
+  resize: none;
+  padding: 0 0.4rem;
+  background: transparent;
+  font:
+    700 1.2rem / 1.25 var(--font-notebook-hand),
+    cursive;
+  color: var(--notebook-ink);
+}
+
+.notebook-piece img {
+  width: 100%;
+  height: 100px;
+  padding: 0 0.3rem 0.45rem;
+  object-fit: cover;
+}
+
+.notebook-sticker-icon {
+  width: 2.85rem;
+  height: 2.85rem;
+  margin: 0 auto 0.5rem;
+  rotate: -7deg;
+}
+
+.notebook-tools,
+.notebook-tools-group,
+.notebook-meta,
+.notebook-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+}
+
+.notebook-tools {
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  margin-block-start: 1.15rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-paper-line);
+  border-radius: 0.25rem;
+  background: var(--color-paper);
+  color: var(--notebook-ink);
+}
+
+.notebook-tools button,
+.notebook-meta button,
+.notebook-picker button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  gap: 0.4rem;
+  padding-inline: 0.4rem;
+  border-radius: 0.15rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.notebook-tools button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.notebook-tools button[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--color-marker) 40%, var(--color-paper));
+}
+
+.notebook-pagination button {
+  min-width: 44px;
+}
+
+.notebook-pagination span {
+  font:
+    700 1.25rem / 1 var(--font-notebook-hand),
+    cursive;
+  font-variant-numeric: tabular-nums;
+}
+
+.notebook-meta {
+  justify-content: space-between;
+  color: var(--color-ink-muted);
+  font-size: 0.875rem;
+}
+
+.notebook-meta button {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.notebook-picker {
+  width: fit-content;
+  max-width: 100%;
+  margin-block-start: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--color-paper);
+  color: var(--notebook-ink);
+  border-radius: 0.25rem;
+}
+
+.notebook-notice {
+  color: var(--color-ink-muted);
+  font-size: 0.875rem;
+}
+
+.notebook-dialog {
+  inset: 0;
+  margin: auto;
+  width: min(100%, 1420px);
+  max-width: none;
+  max-height: 100%;
+  padding: clamp(1rem, 3vw, 2.5rem);
+  overflow: auto;
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.notebook-dialog:modal {
+  overscroll-behavior: contain;
+}
+
+.notebook-dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: var(--color-night);
+}
+
+.notebook-dialog .notebook-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+@media (width >= 48rem) {
+  .notebook-heading {
+    min-height: 8.5rem;
+    background: url("/journal/pencil-motel.webp") 62% bottom / auto 98% no-repeat;
+  }
+
+  .notebook-spread {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .notebook-sheet[data-current="false"] {
+    display: block;
+  }
+
+  .notebook-sheet:first-child {
+    box-shadow: inset -14px 0 20px -18px var(--notebook-ink);
+    border-radius: 0.35rem 0 0 0.35rem;
+  }
+
+  .notebook-sheet:last-child {
+    box-shadow: inset 14px 0 20px -18px var(--notebook-ink);
+    border-radius: 0 0.7rem 0.7rem 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .notebook-spread {
+    animation: chis-page-in 160ms ease-out both;
+  }
+}

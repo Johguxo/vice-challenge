@@ -202,3 +202,7 @@ La portada `/` presenta el selector de apps sobre la escena de atardecer. La mue
 `/journal` usa el MP4 entregado por el equipo como fondo a pantalla completa, en bucle y silenciado. El equipo autorizó esta excepción al material original para ese archivo y esa ruta. El botón de pausa y la preferencia de movimiento reducido muestran la foto costera original. «Abrir mi diario» baja al cuaderno. La cabecera compartida se oculta en esta pantalla.
 
 Los accesos de cuenta aparecen sobre el video, en la esquina superior derecha. Los formularios abren en una hoja de papel y usan correo y contraseña de Supabase Auth.
+
+## 15. Libreta personal
+
+El editor usa hojas rayadas, un lomo central en escritorio y una hoja visible en móvil. La escritura fluye a la siguiente página al agotarse los renglones. Fotos, post-its y stickers se colocan sobre el papel y se pueden mover con el puntero o el teclado. El modo inmersivo abre la misma libreta en un diálogo. Los datos se guardan en IndexedDB del navegador.
