@@ -174,7 +174,7 @@ Referencia de ambiente (las imágenes locales en `assets/references/`, ignoradas
 
 Mismo lenguaje que la portada, con menos protagonismo:
 
-- `components/page-banner.tsx`: la escena del hero en versión baja (`<HeroScene variant="banner" />`) como cabecera de `/retos` y del detalle. Alto mínimo fijo y contenido alineado abajo.
+- `components/page-banner.tsx`: la escena del hero en versión baja (`<HeroScene variant="banner" />`) como cabecera de `/challenges` y del detalle. Alto mínimo fijo y contenido alineado abajo.
 - Tarjetas de reto: borde degradado del color de su modalidad (más intenso al pasar el ratón) y sticker troquelado pequeño (`.sticker-sm`).
 - Filtros: pastillas con borde degradado (`.filter-pill`); la activa se rellena de `vice`.
 - Detalle: "Récord a batir" reutiliza el borde que gira del reto semanal (`.weekly-frame` + `.weekly-halo`); el primer puesto del ranking lleva corona y franja amarilla (`.ranking-top`).

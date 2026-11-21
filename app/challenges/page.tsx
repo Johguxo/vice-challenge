@@ -12,7 +12,7 @@ const filters = [
   ...Object.entries(modes).map(([value, label]) => ({ label, value: value as Mode })),
 ];
 
-export default async function ChallengesPage({ searchParams }: PageProps<"/retos">) {
+export default async function ChallengesPage({ searchParams }: PageProps<"/challenges">) {
   const { modalidad } = await searchParams;
   const mode = filters.find(({ value }) => value === modalidad)?.value;
   const challenges = await listChallenges(mode);
@@ -34,7 +34,7 @@ export default async function ChallengesPage({ searchParams }: PageProps<"/retos
           {filters.map(({ value, label }) => (
             <Link
               key={label}
-              href={value ? `/retos?modalidad=${value}` : "/retos"}
+              href={value ? `/challenges?modalidad=${value}` : "/challenges"}
               aria-current={mode === value ? "page" : undefined}
               data-mode={value}
               className="filter-pill inline-flex min-h-11 items-center rounded-full px-4 text-sm font-bold"
@@ -59,7 +59,7 @@ export default async function ChallengesPage({ searchParams }: PageProps<"/retos
             <h2 className="font-display text-xl font-extrabold">Aún no hay retos en esta modalidad</h2>
             <p className="font-marker text-marker mt-2 text-xl">¿Propones el primero?</p>
             {mode && (
-              <Link href="/retos" className="text-vice inline-flex min-h-11 items-center underline">
+              <Link href="/challenges" className="text-vice inline-flex min-h-11 items-center underline">
                 Ver todos los retos
               </Link>
             )}

@@ -9,7 +9,7 @@ import { ShareChallenge } from "@/components/share-challenge";
 import { formatTime, modes, verification, type Challenge } from "@/lib/challenges";
 import { getChallenge, listChallenges } from "@/lib/data";
 
-type Params = PageProps<"/retos/[slug]">["params"];
+type Params = PageProps<"/challenges/[slug]">["params"];
 
 export async function generateStaticParams() {
   const challenges = await listChallenges();
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
   return challenges.length ? challenges.map(({ slug }) => ({ slug })) : [{ slug: "__empty__" }];
 }
 
-export async function generateMetadata({ params }: PageProps<"/retos/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/challenges/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const challenge = await getChallenge(slug);
   if (!challenge) return {};
@@ -33,12 +33,12 @@ async function loadChallenge(params: Params) {
 
 // Armazón estático (escena + volver); lo que depende del slug va en <Suspense> para navegar al instante.
 // Los esqueletos ocupan lo mismo que el contenido para no provocar saltos de layout.
-export default function ChallengePage({ params }: PageProps<"/retos/[slug]">) {
+export default function ChallengePage({ params }: PageProps<"/challenges/[slug]">) {
   return (
     <main id="contenido">
       <PageBanner>
         <Link
-          href="/retos"
+          href="/challenges"
           transitionTypes={["nav-back"]}
           className="text-ink/85 hover:text-ink inline-flex min-h-11 items-center gap-2 self-start text-sm font-semibold"
         >

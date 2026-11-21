@@ -14,6 +14,7 @@ Plataforma web de fans (Team Chis 🧀) para crear, aceptar y completar desafío
 
 - Producto completo: `docs/PRODUCT.md` (fuente de verdad del alcance; léelo antes de proponer funciones nuevas).
 - Sistema visual: `docs/DESIGN.md` (léelo SIEMPRE antes de tocar UI).
+- Apps e ideas: `docs/IDEAS.md` (la plataforma, de nombre provisional **ViceApp**, es un conjunto de apps: Retos en `/challenges`, Diario en `/journal`…; ahí se apuntan las ideas nuevas y las reglas de rutas).
 
 ## Cómo trabajamos
 
@@ -43,8 +44,8 @@ npm run dev            # http://localhost:3000
 npm run build          # build de producción (debe pasar antes de push)
 npm run lint
 npx tsc --noEmit       # typecheck
-node scripts/shot.mjs / /retos   # capturas en .shots/ (móvil 390 + desktop 1440)
-npm run build && npx next start -p 3100 & node scripts/perf.mjs / /retos   # LCP/CLS/JS en móvil lento simulado
+node scripts/shot.mjs / /challenges   # capturas en .shots/ (móvil 390 + desktop 1440)
+npm run build && npx next start -p 3100 & node scripts/perf.mjs / /challenges   # LCP/CLS/JS en móvil lento simulado
 supabase start         # Postgres/Auth/Storage local (Docker)
 supabase migration new <nombre>
 supabase db reset      # recrea local con migraciones + seed.sql
@@ -55,8 +56,9 @@ supabase gen types typescript --local > lib/supabase/database.types.ts
 
 ```
 app/                    # rutas (App Router)
-  (marketing)/          # home, landing
-  challenges/[slug]/    # página compartible de cada reto
+  page.tsx              # portada (futuro hub de apps)
+  challenges/           # app de retos: lista, [slug] compartible
+  journal/              # app Diario (idea, ver docs/IDEAS.md)
   u/[username]/         # perfil público
 components/ui/          # primitivas shadcn re-estilizadas
 components/             # componentes de producto (ChallengeCard, Leaderboard, ...)
@@ -64,7 +66,7 @@ lib/supabase/           # clients server/browser + database.types.ts generado
 supabase/migrations/    # SQL versionado — única forma de cambiar el esquema
 supabase/seed.sql       # retos de ejemplo realistas para desarrollo
 scripts/shot.mjs        # capturas Playwright para revisión visual
-docs/                   # PRODUCT.md, DESIGN.md
+docs/                   # PRODUCT.md, DESIGN.md, IDEAS.md
 ```
 
 ## Modelo de datos (MVP)

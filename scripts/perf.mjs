@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Medición rápida de rendimiento en móvil simulado (CPU 4x más lenta, red 4G aprox).
-// Uso: npm run build && npx next start -p 3100  →  node scripts/perf.mjs / /retos --base http://localhost:3100
+// Uso: npm run build && npx next start -p 3100  →  node scripts/perf.mjs / /challenges --base http://localhost:3100
 // Reporta LCP, CLS, TBT aproximado, peso transferido y JS. No sustituye a Lighthouse, pero detecta regresiones.
 import { chromium } from "playwright";
 

@@ -12,7 +12,7 @@ export function ChallengeCard({ challenge }: { challenge: Challenge }) {
 
   return (
     <Link
-      href={`/retos/${challenge.slug}`}
+      href={`/challenges/${challenge.slug}`}
       transitionTypes={["nav-forward"]}
       data-glow
       data-mode={challenge.mode}

@@ -58,7 +58,7 @@ export function WeeklyCard({ challenge }: { challenge: Challenge }) {
           )}
 
           <Link
-            href={`/retos/${challenge.slug}`}
+            href={`/challenges/${challenge.slug}`}
             transitionTypes={["nav-forward"]}
             className="action bg-vice text-night shadow-glow-vice hover:bg-ink mt-5 w-full text-base active:scale-[0.98]"
           >

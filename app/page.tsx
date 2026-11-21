@@ -44,7 +44,7 @@ export default async function Home() {
               Retos de GTA VI creados por la comunidad. Pon a prueba tu habilidad y demuestra tu mejor intento.
             </p>
             <Link
-              href="/retos"
+              href="/challenges"
               className="hero-line action border-ink/70 text-ink hover:bg-ink hover:text-night bg-night/30 mt-7 backdrop-blur-sm active:scale-[0.97]"
               style={{ "--i": 3 } as React.CSSProperties}
             >

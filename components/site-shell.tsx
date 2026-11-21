@@ -75,7 +75,7 @@ export function SiteHeader() {
         <nav aria-label="Principal" className="flex items-center gap-2">
           <MotionToggle />
           <Link
-            href="/retos"
+            href="/challenges"
             className="nav-pill text-ink inline-flex min-h-11 items-center gap-2 rounded-full px-4 text-sm font-bold whitespace-nowrap"
           >
             <Flame aria-hidden="true" className="text-sunset size-4" />
