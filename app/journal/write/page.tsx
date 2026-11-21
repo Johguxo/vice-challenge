@@ -7,7 +7,7 @@ import { Notebook } from "@/components/journal/notebook";
 const handwriting = Caveat({ subsets: ["latin"], variable: "--font-notebook-hand" });
 
 export const metadata: Metadata = {
-  title: "Mi diario",
+  title: "GTA 6 Journal",
   description: "Escribe y guarda tus recuerdos en tu libreta de GTA 6 Journal.",
   robots: { index: false },
 };
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function JournalWritePage() {
   return (
     <main id="contenido" className={`journal-landing notebook-workspace chis-home flex-1 ${handwriting.variable}`}>
-      <Link href="/journal" className="chis-dark-link mb-2">
+      <Link href="/journal" className="chis-dark-link text-sm">
         <ArrowLeft aria-hidden="true" size={18} /> Volver a GTA 6 Journal
       </Link>
       <Notebook />

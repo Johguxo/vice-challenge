@@ -25,18 +25,28 @@ export function openNotebook(): Promise<IDBDatabase> {
   });
 }
 
-export function readNotebook(db: IDBDatabase): Promise<NotebookPage[]> {
+type NotebookSnapshot = { pages: NotebookPage[]; pageIndex: number };
+
+export function readNotebook(db: IDBDatabase): Promise<NotebookSnapshot> {
   return new Promise((resolve, reject) => {
     const request = db.transaction("notebooks").objectStore("notebooks").get("personal");
-    request.onsuccess = () => resolve(request.result?.length ? request.result : [blankPage()]);
+    request.onsuccess = () => {
+      const stored = request.result as NotebookSnapshot | NotebookPage[] | undefined;
+      const saved = Array.isArray(stored) ? { pages: stored, pageIndex: 0 } : stored;
+      const pages = saved?.pages.length ? saved.pages : [blankPage()];
+      const index = saved?.pageIndex;
+      const pageIndex =
+        typeof index === "number" && Number.isInteger(index) ? Math.max(0, Math.min(index, pages.length - 1)) : 0;
+      resolve({ pages, pageIndex });
+    };
     request.onerror = () => reject(request.error);
   });
 }
 
-export function saveNotebook(db: IDBDatabase, pages: NotebookPage[]): Promise<void> {
+export function saveNotebook(db: IDBDatabase, snapshot: NotebookSnapshot): Promise<void> {
   return new Promise((resolve, reject) => {
     const transaction = db.transaction("notebooks", "readwrite");
-    transaction.objectStore("notebooks").put(pages, "personal");
+    transaction.objectStore("notebooks").put(snapshot, "personal");
     transaction.oncomplete = () => resolve();
     transaction.onabort = () => reject(transaction.error);
     transaction.onerror = () => reject(transaction.error);

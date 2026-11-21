@@ -44,7 +44,8 @@ export function Notebook() {
         const saved = await readNotebook(opened);
         if (disposed) return;
         database.current = opened;
-        setPages(saved);
+        setPages(saved.pages);
+        setPageIndex(saved.pageIndex);
       } catch {
         if (!disposed) setSaveState("El navegador no permite guardar esta libreta.");
       } finally {
@@ -64,7 +65,7 @@ export function Notebook() {
     const db = database.current;
     if (!ready || !db) return;
     let current = true;
-    void saveNotebook(db, pages).then(
+    void saveNotebook(db, { pages, pageIndex }).then(
       () => {
         if (current) setSaveState("Guardado en este navegador");
       },
@@ -75,7 +76,7 @@ export function Notebook() {
     return () => {
       current = false;
     };
-  }, [pages, ready]);
+  }, [pages, pageIndex, ready]);
 
   useEffect(() => {
     if (!expanded) return;
@@ -181,7 +182,10 @@ export function Notebook() {
             value={page.text}
             disabled={!ready}
             spellCheck={false}
-            onFocus={() => setPageIndex(index)}
+            onFocus={() => {
+              if (index >= pages.length) updatePage(index, (page) => page);
+              setPageIndex(index);
+            }}
             maxLength={20000}
             onChange={(event) => write(index, event.currentTarget, (event.nativeEvent as InputEvent).isComposing)}
             onCompositionEnd={(event) => write(index, event.currentTarget)}
@@ -225,6 +229,7 @@ export function Notebook() {
     return (
       <div className="notebook-body">
         <div className="notebook-paper">
+          <span className="notebook-ribbon" data-side={pageIndex % 2 === 0 ? "left" : "right"} aria-hidden="true" />
           <div className="notebook-spread" data-page={pageIndex + 1}>
             {renderPage(spreadStart)}
             {renderPage(spreadStart + 1)}
@@ -325,7 +330,9 @@ export function Notebook() {
     <div className="notebook">
       <div className="notebook-heading">
         <div>
-          <h1 className="notebook-title">Mi diario</h1>
+          <h1 className="notebook-title">
+            GTA 6 <span>Journal</span>
+          </h1>
           <p>Tu libreta se guarda en este navegador.</p>
         </div>
         <button className="action journal-hero-secondary" type="button" onClick={openImmersive}>
@@ -341,7 +348,7 @@ export function Notebook() {
       >
         <div className="notebook-dialog-bar">
           <h2 id="notebook-dialog-title" className="notebook-title">
-            Mi diario
+            GTA 6 <span>Journal</span>
           </h2>
           <form method="dialog">
             <button type="submit" className="action journal-hero-secondary">
