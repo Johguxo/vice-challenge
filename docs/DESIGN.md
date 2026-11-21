@@ -201,4 +201,4 @@ La portada `/` presenta el selector de apps sobre la escena de atardecer. La mue
 
 `/journal` usa el MP4 entregado por el equipo como fondo a pantalla completa, en bucle y silenciado. El equipo autorizó esta excepción al material original para ese archivo y esa ruta. El botón de pausa y la preferencia de movimiento reducido muestran la foto costera original. «Abrir mi diario» baja al cuaderno. La cabecera compartida se oculta en esta pantalla.
 
-Los accesos de cuenta aparecen sobre el video, en la esquina superior derecha. Los formularios abren en una hoja de papel y usan un código por correo de Supabase Auth.
+Los accesos de cuenta aparecen sobre el video, en la esquina superior derecha. Los formularios abren en una hoja de papel y usan correo y contraseña de Supabase Auth.

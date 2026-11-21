@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { connection } from "next/server";
 import { signOutJournal } from "@/app/journal/access/actions";
 import { createJournalAuth } from "@/lib/supabase/auth";
 
@@ -16,6 +17,7 @@ export function JournalGuestLinks() {
 }
 
 export async function JournalAccountLinks() {
+  await connection();
   const client = await createJournalAuth({ writable: false });
   if (!client) return <JournalGuestLinks />;
   const { data } = await client.auth.getClaims();

@@ -1363,7 +1363,8 @@ body:has(> .journal-landing) > .site-header {
   color: var(--color-paper-ink);
 }
 
-.journal-access-input:user-invalid {
+.journal-access-input:user-invalid,
+.journal-access-input[aria-invalid="true"] {
   border-color: var(--color-vice-deep);
 }
 

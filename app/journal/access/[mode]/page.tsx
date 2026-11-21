@@ -25,7 +25,9 @@ export default async function JournalAccessPage({ params }: PageProps<"/journal/
         <h1 className="font-display mt-2 text-4xl font-black tracking-tight">
           {registering ? "Crea tu cuenta" : "Inicia sesión"}
         </h1>
-        <p className="text-paper-muted mt-3 leading-relaxed">Te enviaremos un código de acceso a tu correo.</p>
+        <p className="text-paper-muted mt-3 leading-relaxed">
+          {registering ? "Regístrate con tu correo y elige una contraseña." : "Ingresa con tu correo y contraseña."}
+        </p>
         <JournalAccessForm mode={mode} />
         <Link
           className="journal-access-link mt-3"

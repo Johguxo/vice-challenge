@@ -6,55 +6,69 @@ import { createJournalAuth } from "@/lib/supabase/auth";
 
 const emailAddress = z.string().trim().max(254).pipe(z.email());
 const accessMode = z.enum(["login", "register"]);
-const emailCode = z
+const loginPassword = z.string().min(1).max(1024);
+const newPassword = z
   .string()
-  .trim()
-  .regex(/^\d{6,8}$/);
+  .min(8)
+  .refine((value) => new TextEncoder().encode(value).length <= 72);
 
-type AccessState = { email?: string; message?: string };
+type AccessState = {
+  email?: string;
+  message?: string;
+  field?: "email" | "password" | "confirmation";
+};
 
-export async function submitJournalAccess(previous: AccessState, form: FormData): Promise<AccessState> {
-  const intent = form.get("intent");
-  if (intent === "change-email") return {};
-
-  if (intent === "verify") {
-    const email = emailAddress.safeParse(previous.email);
-    const code = emailCode.safeParse(form.get("code"));
-    if (!email.success) return { message: "Vuelve a escribir tu correo." };
-    if (!code.success) return { email: email.data, message: "Escribe el código numérico que recibiste." };
-
-    const client = await createJournalAuth();
-    if (!client) return { email: email.data, message: "El acceso por correo no está disponible ahora." };
-
-    const { error } = await client.auth.verifyOtp({ email: email.data, token: code.data, type: "email" });
-    if (error) return { email: email.data, message: "El código no es válido o venció. Revísalo o solicita otro." };
-    redirect("/journal#mi-diario");
-  }
-
+export async function submitJournalAccess(_previous: AccessState, form: FormData): Promise<AccessState> {
   const mode = accessMode.safeParse(form.get("mode"));
   const email = emailAddress.safeParse(form.get("email"));
-  if (!mode.success || !email.success) return { message: "Escribe un correo electrónico válido." };
+  if (!mode.success || !email.success) return { field: "email", message: "Escribe un correo electrónico válido." };
 
-  const client = await createJournalAuth();
-  if (!client) return { message: "El acceso por correo no está disponible ahora." };
-
-  const { error } = await client.auth.signInWithOtp({
-    email: email.data,
-    options: { shouldCreateUser: mode.data === "register" },
-  });
-
-  if (
-    error &&
-    !(mode.data === "login" && ["user_not_found", "otp_disabled", "signup_disabled"].includes(error.code ?? ""))
-  ) {
-    const message =
-      error.status === 429
-        ? "Espera un momento antes de pedir otro código."
-        : "No pudimos enviar el código. Revisa tu correo o inténtalo más tarde.";
-    return { email: previous.email, message };
+  const registering = mode.data === "register";
+  const password = (registering ? newPassword : loginPassword).safeParse(form.get("password"));
+  if (!password.success) {
+    return {
+      email: email.data,
+      field: "password",
+      message: registering
+        ? "Usa una contraseña de al menos 8 caracteres y un máximo de 72 bytes."
+        : "Escribe tu contraseña.",
+    };
+  }
+  if (registering && form.get("confirmation") !== password.data) {
+    return { email: email.data, field: "confirmation", message: "Las contraseñas no coinciden." };
   }
 
-  return { email: email.data };
+  const client = await createJournalAuth();
+  if (!client) return { email: email.data, message: "El acceso no está configurado en este sitio." };
+
+  const credentials = { email: email.data, password: password.data };
+  const { data, error } = registering
+    ? await client.auth.signUp(credentials)
+    : await client.auth.signInWithPassword(credentials);
+
+  if (error) {
+    if (error.status === 429) return { email: email.data, message: "Espera un momento antes de volver a intentarlo." };
+    if (error.code === "email_not_confirmed")
+      return { email: email.data, message: "Supabase todavía solicita confirmar este correo antes de iniciar sesión." };
+    if (error.code === "weak_password")
+      return { email: email.data, field: "password", message: "Elige una contraseña más segura." };
+    if (error.code === "user_already_exists" || error.code === "email_exists") {
+      return { email: email.data, message: "Si ya tienes una cuenta con ese correo, inicia sesión." };
+    }
+    if (!registering && error.code === "invalid_credentials") {
+      return { email: email.data, message: "El correo o la contraseña son incorrectos." };
+    }
+    return { email: email.data, message: "El acceso no está disponible en este momento. Inténtalo más tarde." };
+  }
+
+  if (!data.session) {
+    return {
+      email: email.data,
+      message: "Supabase todavía solicita confirmar el correo. El acceso inmediato aún no está activo.",
+    };
+  }
+
+  redirect("/journal#mi-diario");
 }
 
 export async function signOutJournal() {
