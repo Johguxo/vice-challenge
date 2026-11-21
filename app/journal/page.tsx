@@ -2,6 +2,8 @@ import { ArrowUpRight, BookOpen } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { Suspense } from "react";
+import { JournalAccountLinks, JournalGuestLinks } from "@/components/journal/account-links";
 import { HeroVideo } from "@/components/journal/hero-video";
 import { Postcard } from "@/components/journal/postcard";
 import { SamplePages } from "@/components/journal/sample-pages";
@@ -30,7 +32,13 @@ export default function JournalPage() {
           fetchPriority="high"
           className="journal-hero-image"
         />
-        <HeroVideo />
+        <HeroVideo
+          account={
+            <Suspense fallback={<JournalGuestLinks />}>
+              <JournalAccountLinks />
+            </Suspense>
+          }
+        />
         <div className="page-frame journal-hero-content">
           <p className="journal-hero-kicker">Diario de aventuras en Leonida</p>
           <h1 id="journal-title" className="journal-hero-title">
@@ -58,7 +66,7 @@ export default function JournalPage() {
               Mi diario
             </h2>
             <p className="text-ink-muted mt-2">
-              Cuaderno de muestra. Las cuentas y el guardado llegarán con el diario privado.
+              Cuaderno de muestra. El guardado de entradas todavía está en preparación.
             </p>
           </div>
           <Link href="/journal/stories" className="chis-dark-link">

@@ -1,11 +1,11 @@
 "use client";
 
 import { Pause, Play } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 const videoSource = "/journal/vice-city.mp4";
 
-export function HeroVideo() {
+export function HeroVideo({ account }: { account: ReactNode }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -54,21 +54,26 @@ export function HeroVideo() {
           setFailed(true);
         }}
       />
-      {!failed && (
-        <button
-          type="button"
-          className="journal-video-control"
-          aria-label={playing ? "Pausar video de fondo" : "Reproducir video de fondo"}
-          onClick={() => {
-            const video = videoRef.current;
-            if (!video) return;
-            if (video.paused) play(video);
-            else video.pause();
-          }}
-        >
-          {playing ? <Pause aria-hidden="true" className="size-5" /> : <Play aria-hidden="true" className="size-5" />}
-        </button>
-      )}
+      <div className="journal-hero-controls">
+        <nav aria-label="Cuenta" className="flex flex-wrap justify-end gap-2">
+          {account}
+        </nav>
+        {!failed && (
+          <button
+            type="button"
+            className="journal-video-control"
+            aria-label={playing ? "Pausar video de fondo" : "Reproducir video de fondo"}
+            onClick={() => {
+              const video = videoRef.current;
+              if (!video) return;
+              if (video.paused) play(video);
+              else video.pause();
+            }}
+          >
+            {playing ? <Pause aria-hidden="true" className="size-5" /> : <Play aria-hidden="true" className="size-5" />}
+          </button>
+        )}
+      </div>
     </>
   );
 }

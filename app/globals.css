@@ -1215,11 +1215,23 @@ body:has(> .journal-landing) > .site-header {
   visibility: visible;
 }
 
-.journal-video-control {
+.journal-hero-controls {
   position: absolute;
   z-index: 1;
   inset-block-start: max(1rem, env(safe-area-inset-top));
   inset-inline-end: max(1rem, env(safe-area-inset-right));
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.journal-account-action {
+  padding-inline: 0.7rem;
+  font-size: 0.875rem;
+}
+
+.journal-video-control {
   display: grid;
   place-items: center;
   width: 44px;
@@ -1262,7 +1274,7 @@ body:has(> .journal-landing) > .site-header {
   margin-block-start: 1.25rem;
   font-family: var(--font-display);
   font-stretch: 85%;
-  font-size: clamp(4rem, 12vw, 10.5rem);
+  font-size: clamp(3.8rem, 11.1vw, 9.75rem);
   font-weight: 900;
   line-height: 0.82;
   letter-spacing: -0.055em;
@@ -1315,10 +1327,83 @@ body:has(> .journal-landing) > .site-header {
   }
 
   .journal-hero-title {
-    font-size: clamp(3.15rem, 13.25vw, 5.7rem);
+    font-size: clamp(2.95rem, 12.4vw, 5.25rem);
   }
 
   .journal-hero-content {
     padding-block: 5.5rem 3rem;
   }
+}
+
+.journal-access-page {
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem;
+  background:
+    linear-gradient(0deg, var(--color-night), color-mix(in srgb, var(--color-night) 68%, transparent)),
+    var(--color-night) url("/journal/coastal-dusk.webp") center / cover;
+}
+
+.journal-access-paper {
+  width: min(100%, 28rem);
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  border-radius: var(--radius-md);
+  color: var(--color-paper-ink);
+  background: var(--color-paper);
+  box-shadow: 0 6px 0 -2px var(--color-paper-line);
+}
+
+.journal-access-input {
+  min-height: 48px;
+  width: 100%;
+  border: 1px solid var(--color-paper-muted);
+  border-radius: var(--radius-sm);
+  padding-inline: 0.75rem;
+  background: color-mix(in srgb, var(--color-paper) 55%, white);
+  color: var(--color-paper-ink);
+}
+
+.journal-access-input:user-invalid {
+  border-color: var(--color-vice-deep);
+}
+
+.journal-access-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 0.5rem;
+  color: var(--color-paper-ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.journal-access-link:hover {
+  color: var(--color-paper-muted);
+}
+
+.journal-access-submit {
+  background: var(--color-paper-ink);
+  color: var(--color-paper);
+  cursor: pointer;
+}
+
+.journal-access-submit:hover {
+  background: var(--color-vice);
+  color: var(--color-night);
+}
+
+.journal-access-paper button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.journal-access-error {
+  color: var(--color-paper-ink);
+  font-weight: 650;
+}
+
+.journal-access-error:empty {
+  display: none;
 }
