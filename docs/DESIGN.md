@@ -38,6 +38,7 @@ Referencia de ambiente: el póster del Team Chis (cielo rosa/violeta, paneles ne
   --color-marker: #ffe14d; /* amarillo marcador — subrayados, stickers, top 1 */
   --color-tide: #2ce6e0; /* turquesa — verificado, estados positivos secundarios */
   --color-dusk: #8b5cf6; /* violeta — dificultad, tags */
+  --color-ocean: #5b7cff; /* azul del cielo alto — inicio de los degradados de marca */
 
   /* Estados */
   --color-ok: #3ee08f;
@@ -106,19 +107,22 @@ Degradado de atardecer (solo fondos de hero, OG images y tarjetas de resultado):
 
 La web tiene que sentirse viva para que la gente la comparta, pero rápida en móvil. El CSS vive en la sección "Movimiento" de `app/globals.css`.
 
-| Momento              | Qué pasa                                                                                     | Cómo                                                                          |
-| -------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| Entrada del hero     | Titular por líneas → el sol sale → tarjeta semanal → sticker "estampado" con rebote          | `.hero-line` (`--i` = orden), `.coastal-sun`, `.hero-enter`, `.sticker-stamp` |
-| Scroll del hero      | El sol se hunde tras el skyline mientras bajas                                               | `animation-timeline: scroll()` (mejora progresiva)                            |
-| Tarjetas al aparecer | Suben y se asientan al entrar en pantalla                                                    | `.reveal` en el `<li>`, nunca en la tarjeta (chocaría con el hover)           |
-| Tarjeta en hover     | Foco de luz que sigue al puntero, barra de acento completa, se eleva 4px; al pulsar se hunde | `.challenge-card` + `data-glow` + `components/pointer-glow.tsx`               |
-| Tarjeta → detalle    | El título vuela de la tarjeta al `<h1>`; reglas y ranking suben                              | `<ViewTransition name=… share="text-morph">` + `transitionTypes` en `<Link>`  |
+| Momento              | Qué pasa                                                                                        | Cómo                                                                         |
+| -------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Entrada del hero     | Titular por líneas → tarjeta semanal → el sol sale tras ella → sticker "estampado" con rebote   | `.hero-line` (`--i` = orden), `.hero-enter`, `.weekly-sun`, `.sticker-stamp` |
+| Scroll del hero      | La escena baja más lento que el contenido (parallax)                                            | `animation-timeline: scroll()` en `.hero-scene` (mejora progresiva)          |
+| Escena ambiental     | Estrellas, nubes, helicóptero, noria, ventanas, reflejo del sol, olas y palmeras en bucle suave | `components/hero-scene.tsx`, clases `.scene-*` + `.ambient`                  |
+| Reto semanal         | Borde degradado que gira y halo que late                                                        | `.weekly-frame::before` (rotate), `.weekly-halo`                             |
+| Tarjetas al aparecer | Suben y se asientan al entrar en pantalla                                                       | `.reveal` en el `<li>`, nunca en la tarjeta (chocaría con el hover)          |
+| Tarjeta en hover     | Foco de luz que sigue al puntero, barra de acento completa, se eleva 4px; al pulsar se hunde    | `.challenge-card` + `data-glow` + `components/pointer-glow.tsx`              |
+| Tarjeta → detalle    | El título vuela de la tarjeta al `<h1>`; reglas y ranking suben                                 | `<ViewTransition name=… share="text-morph">` + `transitionTypes` en `<Link>` |
 
 Reglas:
 
 - Solo `transform`/`translate`/`scale`/`opacity` (compositor). Nada de animar `width`, `top`, `box-shadow` en bucle.
 - **Un momento orquestado por pantalla**; el resto, respuestas a acciones (hover, press, navegación).
-- **Nada en bucle infinito** (si hiciera falta, necesita botón de pausa, WCAG 2.2.2).
+- **Bucles solo ambientales y siempre pausables**: llevan `.ambient` y se detienen con el botón "Pausar animación" (`components/motion-toggle.tsx`, WCAG 2.2.2). Nada parpadea más de 3 veces por segundo.
+- Una capa decorativa grande nunca se posiciona en `%` del alto de su contenedor: si el texto cambia de líneas al cargar la fuente, la capa se mueve y dispara el CLS. Ánclala en px.
 - Movimiento espacial siempre dentro de `@media (prefers-reduced-motion: no-preference)`. Los cambios de color siguen activos. Nunca un reset global de duraciones.
 - Animaciones de scroll solo con CSS nativo y `@supports ((animation-timeline: view()) and (animation-range: entry))`; sin soporte, se ve quieto y correcto. Sin polyfills.
 - Acento por modalidad (`--accent`): contrarreloj `sunset`, imposible `vice`, comunitario `tide`.
@@ -150,6 +154,18 @@ Reglas:
 - Lorem ipsum, "Usuario123", estadísticas inventadas.
 - Scroll horizontal a 390px, palabras largas en español que desbordan ("Verificación", "participaciones") — usar `break-words`/`hyphens-auto`.
 
-## 10. Ilustración costera
+## 10. Hero: atardecer en la costa
 
-La home usa una ilustración original en CSS. El sol se recorta sobre la silueta de edificios y las líneas del agua. Una capa oscura protege el contraste del texto en el lado izquierdo. La escena es decorativa y el sticker identifica el reto semanal.
+Referencia de ambiente (las imágenes locales en `assets/references/`, ignoradas en git): portada y logo de GTA VI y stickers de fans.
+
+**Tomamos el lenguaje, no la identidad:**
+
+- Sí: degradado azul → violeta → rosa → naranja; lettering grueso con contorno oscuro y troquel blanco; stickers con borde blanco y sombra; palmeras, skyline, noria, helicóptero, lancha y atardecer; collage de paneles con marcos gruesos como idea de layout.
+- No: logo de GTA/VI ni su silueta, tipografía Pricedown, logo de Rockstar, personajes, arte oficial, "Welcome to Leonida" ni capturas del juego.
+
+**Piezas:**
+
+- `components/hero-scene.tsx`: escena SVG propia (cielo, estrellas, nubes, helicóptero, skyline con ventanas, noria, agua con reflejo, palmeras). Altura fija para no reescalarse con el contenido.
+- `.hero-shade`: oscurece el lado del texto y funde la escena con la página.
+- `components/weekly-card.tsx`: protagonista del hero. Sol con franjas que se asoma por detrás (`.weekly-sun`), borde degradado que gira, halo, cuenta atrás hasta el lunes, récord a batir y podio.
+- `components/site-shell.tsx`: wordmark SVG estilo sticker (`VICE` con degradado y contorno), pastilla con borde degradado y línea de marca bajo el header.

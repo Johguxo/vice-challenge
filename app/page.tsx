@@ -1,7 +1,9 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { ViewTransition } from "react";
-import { ChallengeCard, challengeTitleTransition } from "@/components/challenge-card";
+import { ChallengeCard } from "@/components/challenge-card";
+import { HeroScene } from "@/components/hero-scene";
+import { MotionToggle } from "@/components/motion-toggle";
+import { WeeklyCard } from "@/components/weekly-card";
 import { verification } from "@/lib/challenges";
 import { getWeeklyChallenge, listChallenges } from "@/lib/data";
 
@@ -23,15 +25,11 @@ export default async function Home() {
 
   return (
     <main id="contenido">
-      <section className="bg-sunset relative isolate">
-        <div aria-hidden="true" className="coastal-scene">
-          <div className="coastal-sun" />
-          <div className="coastal-skyline" />
-          <div className="coastal-water" />
-          <div className="coastal-shade" />
-        </div>
-        <div className="page-frame relative grid items-end gap-12 pt-16 pb-12 sm:pt-24 lg:min-h-[560px] lg:grid-cols-[1.45fr_1fr] lg:pb-20">
-          <div>
+      <section className="hero relative isolate overflow-hidden">
+        <HeroScene />
+        <div aria-hidden="true" className="hero-shade" />
+        <div className="page-frame relative grid items-end gap-20 pt-14 pb-20 sm:pt-20 lg:min-h-[720px] lg:grid-cols-[1.45fr_1fr] lg:gap-12 lg:pb-24">
+          <div className="relative z-10">
             <h1 className="font-display font-wide text-[clamp(2.125rem,6.25vw,4.5rem)] leading-[0.95] font-black tracking-tight">
               <span className="hero-line block" style={{ "--i": 0 } as React.CSSProperties}>
                 Inventa el reto.
@@ -41,38 +39,23 @@ export default async function Home() {
               </span>
             </h1>
             <p
-              className="hero-line mt-5 max-w-[46ch] text-lg leading-relaxed"
+              className="hero-line mt-5 max-w-[38ch] text-lg leading-relaxed"
               style={{ "--i": 2 } as React.CSSProperties}
             >
               Retos de GTA VI creados por la comunidad. Pon a prueba tu habilidad y demuestra tu mejor intento.
             </p>
             <Link
               href="/retos"
-              className="hero-line action bg-vice text-night hover:shadow-glow-vice mt-7 active:scale-[0.97]"
+              className="hero-line action border-ink/70 text-ink hover:bg-ink hover:text-night bg-night/30 mt-7 backdrop-blur-sm active:scale-[0.97]"
               style={{ "--i": 3 } as React.CSSProperties}
             >
               Explorar retos <ArrowRight aria-hidden="true" className="size-5" />
             </Link>
           </div>
-          {weekly && (
-            <article className="hero-enter bg-night/95 border-line relative max-w-md rounded-md border p-5 sm:p-6">
-              <p className="sticker-stamp bg-marker text-night font-marker absolute -top-4 left-5 -rotate-2 px-3 py-0.5 text-lg">
-                Reto semanal
-              </p>
-              <ViewTransition name={challengeTitleTransition(weekly.slug)} share="text-morph" default="none">
-                <h2 className="font-display font-semiwide mt-3 text-2xl font-extrabold sm:text-3xl">{weekly.title}</h2>
-              </ViewTransition>
-              <p className="text-ink-muted mt-2 leading-relaxed">{weekly.objective}</p>
-              {weekly.example && <p className="text-ink-muted mt-3 text-sm">Reto de ejemplo</p>}
-              <Link
-                href={`/retos/${weekly.slug}`}
-                transitionTypes={["nav-forward"]}
-                className="text-ink hover:text-vice mt-1 inline-flex min-h-11 items-center gap-2 font-semibold"
-              >
-                Ver reto semanal <ArrowRight aria-hidden="true" className="size-5" />
-              </Link>
-            </article>
-          )}
+          {weekly && <WeeklyCard challenge={weekly} />}
+        </div>
+        <div className="page-frame relative -mt-14 flex justify-end pb-4">
+          <MotionToggle />
         </div>
       </section>
 

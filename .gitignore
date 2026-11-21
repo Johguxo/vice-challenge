@@ -32,3 +32,6 @@ supabase/.temp/
 .pnp.*
 *.pem
 !.env.example
+
+# referencias visuales con copyright (solo locales, no se suben)
+assets/references/

@@ -14,6 +14,7 @@
   --color-marker: #ffe14d;
   --color-tide: #2ce6e0;
   --color-dusk: #8b5cf6;
+  --color-ocean: #5b7cff;
   --color-ok: #3ee08f;
   --color-warn: #ffb020;
   --color-bad: #ff4d5e;
@@ -88,100 +89,6 @@ body {
     color 150ms ease-out;
 }
 
-.coastal-scene {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.coastal-sun {
-  position: absolute;
-  inset-block-end: 24%;
-  inset-inline-end: 12%;
-  width: clamp(150px, 28vw, 390px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0 19px,
-      color-mix(in srgb, var(--color-vice-deep) 40%, transparent) 20px 22px
-    ),
-    linear-gradient(var(--color-marker), var(--color-sunset));
-}
-
-.coastal-skyline {
-  position: absolute;
-  inset: auto 0 22%;
-  height: 42%;
-  background: var(--color-surface-2);
-  clip-path: polygon(
-    0 100%,
-    0 78%,
-    5% 78%,
-    5% 56%,
-    10% 56%,
-    10% 72%,
-    14% 72%,
-    14% 44%,
-    19% 44%,
-    19% 24%,
-    23% 24%,
-    23% 68%,
-    29% 68%,
-    29% 40%,
-    32% 40%,
-    32% 30%,
-    35% 30%,
-    35% 78%,
-    44% 78%,
-    44% 60%,
-    49% 60%,
-    49% 42%,
-    55% 42%,
-    55% 66%,
-    61% 66%,
-    61% 31%,
-    64% 31%,
-    64% 20%,
-    68% 20%,
-    68% 71%,
-    74% 71%,
-    74% 51%,
-    80% 51%,
-    80% 63%,
-    86% 63%,
-    86% 41%,
-    92% 41%,
-    92% 72%,
-    97% 72%,
-    97% 58%,
-    100% 58%,
-    100% 100%
-  );
-}
-
-.coastal-water {
-  position: absolute;
-  inset: auto 0 0;
-  height: 22%;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0 8px,
-      color-mix(in srgb, var(--color-sunset) 28%, transparent) 9px 10px
-    ),
-    linear-gradient(var(--color-surface-2), var(--color-night));
-}
-
-.coastal-shade {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, var(--color-night), transparent 92%),
-    linear-gradient(0deg, var(--color-night), transparent 48%);
-}
-
 .rules-panel {
   clip-path: polygon(
     0 0,
@@ -242,10 +149,6 @@ body {
     animation-delay: calc(var(--i, 0) * 110ms);
   }
 
-  .coastal-sun {
-    animation: sun-rise 1600ms var(--ease-out-strong) both;
-  }
-
   .hero-enter {
     animation: card-in 700ms var(--ease-out-strong) 350ms both;
   }
@@ -253,38 +156,6 @@ body {
   .sticker-stamp {
     animation: stamp 520ms ease-out 900ms both;
     animation: stamp 520ms linear(0, 0.6 18%, 1.12 42%, 0.95 62%, 1.02 80%, 1) 900ms both;
-  }
-}
-
-/* 2. Atardecer con el scroll: el sol se hunde tras el skyline y la ciudad se acerca (mejora progresiva) */
-@keyframes sun-set {
-  to {
-    transform: translateY(40%);
-  }
-}
-
-/* Baja hacia el agua (que la tapa); si subiera, abriría un hueco entre ciudad y agua */
-@keyframes skyline-drift {
-  to {
-    transform: translateY(12%);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  @supports ((animation-timeline: scroll()) and (animation-range: 0 100vh)) {
-    .coastal-sun {
-      animation:
-        sun-rise 1600ms var(--ease-out-strong) both,
-        sun-set auto linear both;
-      animation-timeline: auto, scroll(root);
-      animation-range: normal, 0 80vh;
-    }
-
-    .coastal-skyline {
-      animation: skyline-drift auto linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 80vh;
-    }
   }
 }
 
@@ -433,5 +304,305 @@ body {
   ::view-transition-new(*) {
     animation-duration: 0s !important;
     animation-delay: 0s !important;
+  }
+}
+
+/* ───────────────────────── Escena del hero, header y reto semanal ─────────────────────────
+   Lenguaje visual inspirado en el atardecer de Vice (degradado azul→rosa→naranja, lettering con
+   contorno, stickers troquelados), con arte 100 % propio. Los bucles ambientales llevan .ambient
+   y se detienen con el botón "Pausar animación" (WCAG 2.2.2) o con prefers-reduced-motion. */
+
+.hero {
+  background: var(--color-night);
+}
+
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(11 6 18 / 0.82) 0%, rgb(11 6 18 / 0.35) 45%, transparent 72%),
+    linear-gradient(0deg, var(--color-night) 0%, transparent 26%);
+}
+
+/* Elementos del SVG: girar/escalar sobre su propia caja */
+.hero-scene :is(.scene-palm, .scene-wheel, .scene-shimmer) {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.hero-scene .scene-palm {
+  transform-origin: 50% 100%;
+}
+.hero-scene .scene-heli {
+  translate: 1240px 170px; /* posición quieta (sin movimiento) */
+}
+
+@keyframes twinkle {
+  to {
+    opacity: 0.2;
+  }
+}
+@keyframes drift {
+  from {
+    translate: -50px 0;
+  }
+  to {
+    translate: 50px 0;
+  }
+}
+@keyframes heli-fly {
+  from {
+    translate: 1760px 210px;
+  }
+  to {
+    translate: -160px 140px;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0.15;
+  }
+}
+@keyframes breathe {
+  from {
+    scale: 0.94;
+  }
+  to {
+    scale: 1.06;
+  }
+}
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes shimmer {
+  from {
+    scale: 0.78 1;
+  }
+  to {
+    scale: 1.04 1;
+  }
+}
+@keyframes sway {
+  from {
+    rotate: -1.6deg;
+  }
+  to {
+    rotate: 1.6deg;
+  }
+}
+@keyframes scene-parallax {
+  to {
+    translate: 0 14%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scene-twinkle {
+    animation: twinkle 3.2s ease-in-out infinite alternate;
+  }
+  .scene-clouds {
+    animation: drift 22s ease-in-out infinite alternate;
+  }
+  .scene-heli {
+    animation: heli-fly 28s linear infinite;
+  }
+  .scene-blink {
+    animation: blink 1.4s steps(1) infinite;
+  }
+  .scene-wheel {
+    animation: spin 48s linear infinite;
+  }
+  .scene-window {
+    animation: twinkle 4.5s ease-in-out infinite alternate;
+  }
+  .scene-shimmer {
+    animation: shimmer 2.6s ease-in-out infinite alternate;
+  }
+  .scene-waves {
+    animation: drift 8s ease-in-out infinite alternate;
+  }
+  .scene-palm {
+    animation: sway 5.5s ease-in-out infinite alternate;
+  }
+
+  /* Parallax: la escena baja más lento que el contenido al hacer scroll */
+  @supports ((animation-timeline: scroll()) and (animation-range: 0 100vh)) {
+    .hero-scene {
+      animation: scene-parallax auto linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 90vh;
+    }
+  }
+}
+
+/* Pausa manual de los bucles */
+:root[data-motion="paused"] :is(.ambient, .weekly-frame)::before,
+:root[data-motion="paused"] .ambient {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-toggle {
+    display: none;
+  }
+}
+
+/* Header: cristal oscuro + línea degradada + wordmark sticker */
+.site-header {
+  background: rgb(11 6 18 / 0.74);
+  backdrop-filter: blur(14px) saturate(150%);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-ocean), var(--color-vice), var(--color-sunset), var(--color-marker));
+  }
+}
+
+.wordmark {
+  filter: drop-shadow(0 4px 10px rgb(255 46 147 / 0.35));
+}
+.wordmark-link {
+  @media (prefers-reduced-motion: no-preference) {
+    .wordmark {
+      transition: rotate 300ms linear(0, 0.6 20%, 1.15 45%, 0.95 65%, 1);
+    }
+    &:hover .wordmark {
+      rotate: 3deg;
+    }
+  }
+}
+
+.nav-pill {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--color-night), var(--color-night)) padding-box,
+    linear-gradient(90deg, var(--color-ocean), var(--color-vice), var(--color-sunset)) border-box;
+  transition:
+    box-shadow 200ms ease-out,
+    background 200ms ease-out;
+
+  &:hover {
+    background:
+      linear-gradient(var(--color-surface-2), var(--color-surface-2)) padding-box,
+      linear-gradient(90deg, var(--color-ocean), var(--color-vice), var(--color-sunset)) border-box;
+    box-shadow: var(--shadow-glow-vice);
+  }
+}
+
+/* Sticker troquelado: borde blanco + sombra, como una pegatina real */
+.sticker {
+  rotate: -4deg;
+  box-shadow:
+    0 0 0 3px #fff4f8,
+    0 8px 18px rgb(0 0 0 / 0.45);
+}
+
+/* Reto semanal: borde degradado que gira (rotate de una capa cónica, en compositor) + halo que late */
+.weekly-frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 14px;
+  padding: 2px;
+  background: var(--color-vice);
+
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    /* Anclada en px (no en % del alto): si el título cambia de líneas al cargar la fuente,
+       esta capa enorme no se mueve y no genera CLS. Cubre tarjetas de hasta ~900px de alto. */
+    top: 220px;
+    left: 50%;
+    width: 1400px;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    background: conic-gradient(
+      var(--color-ocean),
+      var(--color-vice),
+      var(--color-sunset),
+      var(--color-marker),
+      var(--color-vice),
+      var(--color-ocean)
+    );
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &::before {
+      animation: spin 5s linear infinite;
+    }
+  }
+}
+
+@keyframes pulse-glow {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.weekly-halo {
+  position: absolute;
+  inset: -6px;
+  border-radius: 20px;
+  pointer-events: none;
+  box-shadow:
+    0 0 44px 6px rgb(255 46 147 / 0.45),
+    0 0 90px 18px rgb(91 124 255 / 0.28);
+  opacity: 0.75;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: pulse-glow 2.8s ease-in-out infinite alternate;
+  }
+}
+
+/* Sol que se asoma por detrás del reto semanal: franjas + degradado, fundido hacia abajo como si
+   se escondiera tras la ciudad. Está anclado a la tarjeta para verse igual en móvil y en desktop. */
+.weekly-sun {
+  position: absolute;
+  z-index: -2;
+  left: 50%;
+  top: -84px;
+  width: min(300px, 80%);
+
+  @media (width >= 64rem) {
+    top: -118px;
+    width: 380px;
+  }
+  aspect-ratio: 1;
+  translate: -50% 0;
+  border-radius: 50%;
+  /* Franjas recortadas en la parte que asoma sobre la tarjeta (≈ primer tercio) */
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0 17%,
+      var(--color-night) 17% 18.2%,
+      transparent 18.2% 23%,
+      var(--color-night) 23% 24.8%,
+      transparent 24.8% 29%,
+      var(--color-night) 29% 31.5%,
+      transparent 31.5%
+    ),
+    linear-gradient(var(--color-marker), var(--color-sunset) 40%, var(--color-vice) 75%);
+  box-shadow: 0 0 120px 30px rgb(255 138 61 / 0.35);
+  mask-image: linear-gradient(black 34%, transparent 70%);
+  pointer-events: none;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: weekly-sun-rise 1600ms var(--ease-out-strong) both;
+  }
+}
+
+@keyframes weekly-sun-rise {
+  from {
+    opacity: 0;
+    translate: -50% 40%;
   }
 }
