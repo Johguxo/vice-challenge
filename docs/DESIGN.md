@@ -21,23 +21,23 @@ Referencia de ambiente: el póster del Team Chis (cielo rosa/violeta, paneles ne
 
 @theme {
   /* Superficies — noche violeta, nunca negro puro */
-  --color-night: #0b0612;        /* fondo de página */
-  --color-surface: #150c21;      /* tarjetas */
-  --color-surface-2: #21132f;    /* elevado / hover */
-  --color-line: #3a2550;         /* bordes y divisores */
+  --color-night: #0b0612; /* fondo de página */
+  --color-surface: #150c21; /* tarjetas */
+  --color-surface-2: #21132f; /* elevado / hover */
+  --color-line: #3a2550; /* bordes y divisores */
 
   /* Texto */
-  --color-ink: #fff4f8;          /* principal */
-  --color-ink-muted: #bba8cc;    /* secundario (AA sobre night y surface) */
-  --color-ink-faint: #8a7699;    /* metadatos, nunca para texto largo */
+  --color-ink: #fff4f8; /* principal */
+  --color-ink-muted: #bba8cc; /* secundario (AA sobre night y surface) */
+  --color-ink-faint: #8a7699; /* metadatos, nunca para texto largo */
 
   /* Marca */
-  --color-vice: #ff2e93;         /* rosa neón — acción primaria, foco, links */
-  --color-vice-deep: #c3166c;    /* hover/pressed de vice */
-  --color-sunset: #ff8a3d;       /* naranja — energía, rachas, "en vivo" */
-  --color-marker: #ffe14d;       /* amarillo marcador — subrayados, stickers, top 1 */
-  --color-tide: #2ce6e0;         /* turquesa — verificado, estados positivos secundarios */
-  --color-dusk: #8b5cf6;         /* violeta — dificultad, tags */
+  --color-vice: #ff2e93; /* rosa neón — acción primaria, foco, links */
+  --color-vice-deep: #c3166c; /* hover/pressed de vice */
+  --color-sunset: #ff8a3d; /* naranja — energía, rachas, "en vivo" */
+  --color-marker: #ffe14d; /* amarillo marcador — subrayados, stickers, top 1 */
+  --color-tide: #2ce6e0; /* turquesa — verificado, estados positivos secundarios */
+  --color-dusk: #8b5cf6; /* violeta — dificultad, tags */
 
   /* Estados */
   --color-ok: #3ee08f;
@@ -45,10 +45,10 @@ Referencia de ambiente: el póster del Team Chis (cielo rosa/violeta, paneles ne
   --color-bad: #ff4d5e;
 
   /* Tipografía (cargar con next/font/google) */
-  --font-display: "Archivo", sans-serif;           /* ancho 112–125, peso 800–900 */
+  --font-display: "Archivo", sans-serif; /* ancho 112–125, peso 800–900 */
   --font-sans: "Geist", system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
-  --font-marker: "Permanent Marker", cursive;      /* SOLO acentos cortos */
+  --font-marker: "Permanent Marker", cursive; /* SOLO acentos cortos */
 
   /* Radios: más cartel que app bancaria */
   --radius-sm: 4px;
@@ -60,7 +60,10 @@ Referencia de ambiente: el póster del Team Chis (cielo rosa/violeta, paneles ne
   --shadow-glow-marker: 0 0 0 1px #ffe14d55, 0 8px 32px -8px #ffe14d70;
 }
 
-body { background: var(--color-night); color: var(--color-ink); }
+body {
+  background: var(--color-night);
+  color: var(--color-ink);
+}
 ```
 
 Degradado de atardecer (solo fondos de hero, OG images y tarjetas de resultado):
@@ -71,16 +74,16 @@ Degradado de atardecer (solo fondos de hero, OG images y tarjetas de resultado):
 
 ## 3. Tipografía
 
-| Rol | Fuente | Tamaño móvil → desktop | Notas |
-|---|---|---|---|
-| Display (hero, título de reto) | Archivo 900, `font-stretch: 125%` | 40 → 72px, `leading-[0.95]`, `tracking-tight` | Mayúsculas opcionales; máx 2 líneas |
-| H2 sección | Archivo 800, 112% | 24 → 32px | |
-| H3 / título de tarjeta | Archivo 800, 100% | 18 → 20px | |
-| Cuerpo | Geist 400 | 16px, `leading-relaxed` | Mínimo 16px en móvil |
-| UI / labels | Geist 500 | 14px | |
-| Meta | Geist 400 | 13px, `ink-faint` | |
-| Tiempos / posiciones | Geist Mono 600, `tabular-nums` | 20 → 32px en ranking | Formato `02:41.380` |
-| Marcador | Permanent Marker | 18–28px | ≤ 4 palabras. "¿Te atreves?", "Nuevo récord" |
+| Rol                            | Fuente                            | Tamaño móvil → desktop                        | Notas                                        |
+| ------------------------------ | --------------------------------- | --------------------------------------------- | -------------------------------------------- |
+| Display (hero, título de reto) | Archivo 900, `font-stretch: 125%` | 40 → 72px, `leading-[0.95]`, `tracking-tight` | Mayúsculas opcionales; máx 2 líneas          |
+| H2 sección                     | Archivo 800, 112%                 | 24 → 32px                                     |                                              |
+| H3 / título de tarjeta         | Archivo 800, 100%                 | 18 → 20px                                     |                                              |
+| Cuerpo                         | Geist 400                         | 16px, `leading-relaxed`                       | Mínimo 16px en móvil                         |
+| UI / labels                    | Geist 500                         | 14px                                          |                                              |
+| Meta                           | Geist 400                         | 13px, `ink-faint`                             |                                              |
+| Tiempos / posiciones           | Geist Mono 600, `tabular-nums`    | 20 → 32px en ranking                          | Formato `02:41.380`                          |
+| Marcador                       | Permanent Marker                  | 18–28px                                       | ≤ 4 palabras. "¿Te atreves?", "Nuevo récord" |
 
 ## 4. Elementos de firma
 
@@ -101,9 +104,26 @@ Degradado de atardecer (solo fondos de hero, OG images y tarjetas de resultado):
 
 ## 6. Movimiento
 
-- Transiciones 150–200ms, `ease-out`. Nada de rebotes.
-- Entrada de listas: fade + 8px, escalonado ≤ 40ms, solo en la primera carga.
-- Respeta `prefers-reduced-motion` (sin movimiento decorativo).
+La web tiene que sentirse viva para que la gente la comparta, pero rápida en móvil. El CSS vive en la sección "Movimiento" de `app/globals.css`.
+
+| Momento              | Qué pasa                                                                                     | Cómo                                                                          |
+| -------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Entrada del hero     | Titular por líneas → el sol sale → tarjeta semanal → sticker "estampado" con rebote          | `.hero-line` (`--i` = orden), `.coastal-sun`, `.hero-enter`, `.sticker-stamp` |
+| Scroll del hero      | El sol se hunde tras el skyline mientras bajas                                               | `animation-timeline: scroll()` (mejora progresiva)                            |
+| Tarjetas al aparecer | Suben y se asientan al entrar en pantalla                                                    | `.reveal` en el `<li>`, nunca en la tarjeta (chocaría con el hover)           |
+| Tarjeta en hover     | Foco de luz que sigue al puntero, barra de acento completa, se eleva 4px; al pulsar se hunde | `.challenge-card` + `data-glow` + `components/pointer-glow.tsx`               |
+| Tarjeta → detalle    | El título vuela de la tarjeta al `<h1>`; reglas y ranking suben                              | `<ViewTransition name=… share="text-morph">` + `transitionTypes` en `<Link>`  |
+
+Reglas:
+
+- Solo `transform`/`translate`/`scale`/`opacity` (compositor). Nada de animar `width`, `top`, `box-shadow` en bucle.
+- **Un momento orquestado por pantalla**; el resto, respuestas a acciones (hover, press, navegación).
+- **Nada en bucle infinito** (si hiciera falta, necesita botón de pausa, WCAG 2.2.2).
+- Movimiento espacial siempre dentro de `@media (prefers-reduced-motion: no-preference)`. Los cambios de color siguen activos. Nunca un reset global de duraciones.
+- Animaciones de scroll solo con CSS nativo y `@supports ((animation-timeline: view()) and (animation-range: entry))`; sin soporte, se ve quieto y correcto. Sin polyfills.
+- Acento por modalidad (`--accent`): contrarreloj `sunset`, imposible `vice`, comunitario `tide`.
+- Presupuesto: LCP móvil < 2,5 s, CLS < 0,1, JS de la home ≤ 160 KB. Medir con `node scripts/perf.mjs` sobre un build de producción.
+- Al añadir un `<ViewTransition>` nombrado: nombre único por página (`reto-titulo-<slug>`), `default="none"` + `share` explícito. Ver la skill `vercel-react-view-transitions`.
 
 ## 7. Voz y copy
 

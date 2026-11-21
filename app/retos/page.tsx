@@ -45,7 +45,7 @@ export default async function ChallengesPage({ searchParams }: PageProps<"/retos
       {challenges.length ? (
         <ul className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3" aria-label="Retos disponibles">
           {challenges.map((challenge) => (
-            <li key={challenge.slug}>
+            <li key={challenge.slug} className="reveal">
               <ChallengeCard challenge={challenge} />
             </li>
           ))}

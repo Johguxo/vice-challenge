@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Geist, Geist_Mono, Permanent_Marker } from "next/font/google";
 import "./globals.css";
+import { PointerGlow } from "@/components/pointer-glow";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 
 const archivo = Archivo({
@@ -19,8 +20,16 @@ const marker = Permanent_Marker({
   weight: "400",
 });
 
+// URL absoluta para las imágenes de compartir: dominio de producción en Vercel, o local en desarrollo.
+const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: { default: "Vice Challenges", template: "%s | Vice Challenges" },
+  openGraph: { siteName: "Vice Challenges", locale: "es_419", type: "website" },
+  twitter: { card: "summary_large_image" },
   description:
     "Retos de GTA VI creados por la comunidad: crea uno, juega, sube tu prueba y pelea el ranking. Proyecto de fans no oficial.",
 };
@@ -43,6 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader />
         {children}
         <SiteFooter />
+        <PointerGlow />
       </body>
     </html>
   );

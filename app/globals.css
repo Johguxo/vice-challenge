@@ -60,14 +60,7 @@ body {
   outline-offset: 2px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}
+/* Movimiento reducido: se decide regla por regla (ver sección "Movimiento" al final), nunca con un reset global. */
 
 @utility page-frame {
   width: 100%;
@@ -201,4 +194,244 @@ body {
     22% 100%,
     0 calc(100% - 7px)
   );
+}
+
+/* ───────────────────────── Movimiento ─────────────────────────
+   Reglas (docs/DESIGN.md §6): solo transform/translate/scale/opacity, un momento orquestado por pantalla,
+   nada en bucle infinito, todo el movimiento espacial dentro de prefers-reduced-motion: no-preference. */
+
+:root {
+  --ease-out-strong: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-exit: 150ms;
+  --duration-enter: 220ms;
+  --duration-move: 380ms;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 0.5em;
+  }
+}
+
+@keyframes sun-rise {
+  from {
+    translate: 0 55%;
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    translate: 0 28px;
+  }
+}
+
+@keyframes stamp {
+  from {
+    opacity: 0;
+    scale: 1.7;
+    rotate: -16deg;
+  }
+}
+
+/* 1. Entrada del hero: titular por líneas → sol que sale → tarjeta semanal → sticker estampado */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-line {
+    animation: rise 650ms var(--ease-out-strong) both;
+    animation-delay: calc(var(--i, 0) * 110ms);
+  }
+
+  .coastal-sun {
+    animation: sun-rise 1600ms var(--ease-out-strong) both;
+  }
+
+  .hero-enter {
+    animation: card-in 700ms var(--ease-out-strong) 350ms both;
+  }
+
+  .sticker-stamp {
+    animation: stamp 520ms ease-out 900ms both;
+    animation: stamp 520ms linear(0, 0.6 18%, 1.12 42%, 0.95 62%, 1.02 80%, 1) 900ms both;
+  }
+}
+
+/* 2. Atardecer con el scroll: el sol se hunde tras el skyline y la ciudad se acerca (mejora progresiva) */
+@keyframes sun-set {
+  to {
+    transform: translateY(40%);
+  }
+}
+
+/* Baja hacia el agua (que la tapa); si subiera, abriría un hueco entre ciudad y agua */
+@keyframes skyline-drift {
+  to {
+    transform: translateY(12%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: scroll()) and (animation-range: 0 100vh)) {
+    .coastal-sun {
+      animation:
+        sun-rise 1600ms var(--ease-out-strong) both,
+        sun-set auto linear both;
+      animation-timeline: auto, scroll(root);
+      animation-range: normal, 0 80vh;
+    }
+
+    .coastal-skyline {
+      animation: skyline-drift auto linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80vh;
+    }
+  }
+}
+
+/* 3. Aparición al hacer scroll: las tarjetas suben al entrar en pantalla (sin soporte: se ven quietas) */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 40px;
+    scale: 0.96;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .reveal {
+      animation: reveal auto var(--ease-out-strong) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+
+/* 4. Tarjetas de reto: acento por modalidad, foco de luz que sigue al puntero, elevación y presión */
+@property --glow {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.challenge-card {
+  --accent: var(--color-vice);
+  position: relative;
+  isolation: isolate;
+  transition:
+    border-color 200ms ease-out,
+    background-color 200ms ease-out,
+    --glow 250ms ease-out;
+
+  &[data-mode="speed"] {
+    --accent: var(--color-sunset);
+  }
+  &[data-mode="community"] {
+    --accent: var(--color-tide);
+  }
+
+  /* Foco de luz: decorativo, solo para punteros finos; el contenido nunca depende de él */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      360px circle at var(--mx, 50%) var(--my, 0%),
+      color-mix(in srgb, var(--accent) 24%, transparent),
+      transparent 70%
+    );
+    opacity: var(--glow);
+  }
+
+  /* Barra de acento: siempre visible a medias; se completa al interactuar */
+  .card-accent {
+    transform-origin: left;
+    scale: 0.35 1;
+    transition: scale var(--duration-move) var(--ease-out-strong);
+  }
+
+  &:hover,
+  &:focus-visible {
+    --glow: 1;
+    background-color: var(--color-surface-2);
+    border-color: color-mix(in srgb, var(--accent) 55%, var(--color-line));
+
+    .card-accent {
+      scale: 1 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition:
+      border-color 200ms ease-out,
+      background-color 200ms ease-out,
+      --glow 250ms ease-out,
+      translate 250ms var(--ease-out-strong),
+      scale 120ms ease-out;
+
+    &:hover {
+      translate: 0 -4px;
+    }
+
+    &:active {
+      scale: 0.98;
+    }
+
+    .card-arrow {
+      transition: translate 250ms var(--ease-out-strong);
+    }
+
+    &:hover .card-arrow {
+      translate: 3px -3px;
+    }
+  }
+}
+
+/* 5. View transitions entre la lista y el detalle (React <ViewTransition>) */
+::view-transition-old(root) {
+  display: none;
+}
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-group(.text-morph) {
+  animation-duration: var(--duration-move);
+  animation-timing-function: var(--ease-out-strong);
+}
+::view-transition-old(.text-morph) {
+  display: none;
+}
+::view-transition-new(.text-morph) {
+  animation: none;
+  object-fit: none;
+  object-position: left top;
+}
+
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes vt-slide-y {
+  from {
+    translate: 0 24px;
+  }
+}
+::view-transition-new(.slide-up) {
+  animation:
+    var(--duration-enter) ease-out 80ms both vt-fade,
+    var(--duration-move) var(--ease-out-strong) both vt-slide-y;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
 }

@@ -26,13 +26,13 @@ Plataforma web de fans (Team Chis 🧀) para crear, aceptar y completar desafío
 
 ## Stack
 
-| Capa | Elección |
-|---|---|
-| App | Next.js (App Router) + TypeScript estricto + React Server Components |
-| Estilos | Tailwind CSS v4 (tokens en `@theme` dentro de `app/globals.css`) + shadcn/ui como primitivas, **re-estilizadas** con nuestros tokens |
-| Datos/Auth/Archivos | Supabase (Postgres + Auth + Storage), cliente vía `@supabase/ssr` |
-| Deploy | Vercel (deploy automático desde GitHub; preview por rama) |
-| Gestor de paquetes | npm |
+| Capa                | Elección                                                                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| App                 | Next.js (App Router) + TypeScript estricto + React Server Components                                                                 |
+| Estilos             | Tailwind CSS v4 (tokens en `@theme` dentro de `app/globals.css`) + shadcn/ui como primitivas, **re-estilizadas** con nuestros tokens |
+| Datos/Auth/Archivos | Supabase (Postgres + Auth + Storage), cliente vía `@supabase/ssr`                                                                    |
+| Deploy              | Vercel (deploy automático desde GitHub; preview por rama)                                                                            |
+| Gestor de paquetes  | npm                                                                                                                                  |
 
 Sin backend separado: lecturas en Server Components, escrituras con Server Actions. Route Handlers solo si algo externo necesita una URL (webhooks, OG images).
 
@@ -43,7 +43,8 @@ npm run dev            # http://localhost:3000
 npm run build          # build de producción (debe pasar antes de push)
 npm run lint
 npx tsc --noEmit       # typecheck
-node scripts/shot.mjs / /challenges   # capturas en .shots/ (móvil 390 + desktop 1440)
+node scripts/shot.mjs / /retos   # capturas en .shots/ (móvil 390 + desktop 1440)
+npm run build && npx next start -p 3100 & node scripts/perf.mjs / /retos   # LCP/CLS/JS en móvil lento simulado
 supabase start         # Postgres/Auth/Storage local (Docker)
 supabase migration new <nombre>
 supabase db reset      # recrea local con migraciones + seed.sql
@@ -92,22 +93,23 @@ Viven en `.agents/skills/` (Codex las lee ahí). Para Claude Code se copian a `.
 
 **Propias** (flujo del proyecto):
 
-| Skill | Cuándo |
-|---|---|
-| `ui` | Construir o rediseñar cualquier pantalla/componente |
-| `design-review` | Después de todo cambio de UI: capturas + crítica + arreglos |
-| `db` | Cualquier cambio de esquema, RLS, Storage o seed en Supabase |
-| `ship` | Checks + commit + push → deploy en Vercel |
+| Skill           | Cuándo                                                       |
+| --------------- | ------------------------------------------------------------ |
+| `ui`            | Construir o rediseñar cualquier pantalla/componente          |
+| `design-review` | Después de todo cambio de UI: capturas + crítica + arreglos  |
+| `db`            | Cualquier cambio de esquema, RLS, Storage o seed en Supabase |
+| `ship`          | Checks + commit + push → deploy en Vercel                    |
 
 **De terceros** (guías de apoyo, fijadas en `skills-lock.json`):
 
-| Skill | Cuándo | Origen |
-|---|---|---|
-| `frontend-design` | Dirección estética al planear una pantalla nueva | anthropics/skills |
-| `web-design-guidelines` | Auditar código de UI (accesibilidad, UX, semántica) | vercel-labs/agent-skills |
-| `modern-web-guidance` | Antes de implementar patrones HTML/CSS/JS de cliente (dialogs, forms, popovers, animaciones…) | GoogleChrome/modern-web-guidance |
-| `supabase-postgres-best-practices` | Antes de escribir SQL, migraciones, índices o RLS | supabase/agent-skills |
-| `codebase-design` | Al diseñar o reestructurar módulos (`lib/`, data access) | mattpocock/skills |
+| Skill                              | Cuándo                                                                                        | Origen                           |
+| ---------------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------- |
+| `frontend-design`                  | Dirección estética al planear una pantalla nueva                                              | anthropics/skills                |
+| `web-design-guidelines`            | Auditar código de UI (accesibilidad, UX, semántica)                                           | vercel-labs/agent-skills         |
+| `modern-web-guidance`              | Antes de implementar patrones HTML/CSS/JS de cliente (dialogs, forms, popovers, animaciones…) | GoogleChrome/modern-web-guidance |
+| `supabase-postgres-best-practices` | Antes de escribir SQL, migraciones, índices o RLS                                             | supabase/agent-skills            |
+| `codebase-design`                  | Al diseñar o reestructurar módulos (`lib/`, data access)                                      | mattpocock/skills                |
+| `vercel-react-view-transitions`    | Transiciones entre páginas y elementos compartidos con `<ViewTransition>`                     | vercel-labs/agent-skills         |
 
 **Prioridad cuando chocan:** `docs/DESIGN.md` y este archivo mandan sobre las skills genéricas. Ejemplo: `frontend-design` desaconseja la mono para datos y los fondos casi negros como defaults genéricos; aquí son decisiones explícitas de marca (tiempos en mono tabular, fondo `night` violeta). Si una skill de terceros contradice algo de la marca, gana la marca; si contradice algo técnico y tiene razón, propón actualizar `DESIGN.md`.
 
