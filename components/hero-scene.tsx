@@ -73,11 +73,12 @@ function Palm({ x, height, flip = false, delay = 0 }: { x: number; height: numbe
   );
 }
 
-export function HeroScene() {
+// "hero": portada (alto, se ve el agua). "banner": cabecera de páginas internas (cielo + skyline).
+export function HeroScene({ variant = "hero" }: { variant?: "hero" | "banner" }) {
   return (
     <svg
       aria-hidden="true"
-      className="hero-scene absolute inset-x-0 top-0 h-[1100px] w-full lg:h-[860px]"
+      className={`hero-scene absolute inset-x-0 top-0 w-full ${variant === "hero" ? "h-[1100px] lg:h-[860px]" : "h-[560px] lg:h-[640px]"}`}
       viewBox={`0 0 ${W} 900`}
       preserveAspectRatio="xMidYMax slice"
     >

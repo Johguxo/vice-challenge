@@ -1,5 +1,6 @@
 import { Flame } from "lucide-react";
 import Link from "next/link";
+import { MotionToggle } from "@/components/motion-toggle";
 
 // Wordmark propio estilo sticker: relleno degradado azul→rosa→naranja, contorno oscuro y troquel blanco.
 // Es SVG para que el contorno (paint-order) se vea igual en todos los navegadores.
@@ -71,13 +72,15 @@ export function SiteHeader() {
         <Link href="/" aria-label="Vice Challenges, inicio" className="wordmark-link inline-flex min-h-11 items-center">
           <Wordmark />
         </Link>
-        <nav aria-label="Principal">
+        <nav aria-label="Principal" className="flex items-center gap-2">
+          <MotionToggle />
           <Link
             href="/retos"
-            className="nav-pill text-ink inline-flex min-h-11 items-center gap-2 rounded-full px-4 text-sm font-bold"
+            className="nav-pill text-ink inline-flex min-h-11 items-center gap-2 rounded-full px-4 text-sm font-bold whitespace-nowrap"
           >
             <Flame aria-hidden="true" className="text-sunset size-4" />
-            Explorar retos
+            <span className="sm:hidden">Retos</span>
+            <span className="hidden sm:inline">Explorar retos</span>
           </Link>
         </nav>
       </div>

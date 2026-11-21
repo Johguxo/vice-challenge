@@ -36,10 +36,11 @@ export function MotionToggle() {
     <button
       type="button"
       onClick={() => setMotion(!paused)}
-      className="motion-toggle bg-night/70 border-line text-ink hover:bg-night inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full border px-4 text-sm font-semibold backdrop-blur"
+      className="motion-toggle border-line text-ink-muted hover:text-ink hover:bg-surface-2 inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center gap-2 rounded-full border px-3 text-sm font-semibold"
     >
       {paused ? <Play aria-hidden="true" className="size-4" /> : <Pause aria-hidden="true" className="size-4" />}
-      {paused ? "Reanudar animación" : "Pausar animación"}
+      {/* Texto visible desde sm; en móvil queda como nombre accesible del botón de icono */}
+      <span className="sr-only sm:not-sr-only">{paused ? "Reanudar animación" : "Pausar animación"}</span>
     </button>
   );
 }

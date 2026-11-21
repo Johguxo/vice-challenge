@@ -187,12 +187,16 @@ body {
 
 .challenge-card {
   --accent: var(--color-vice);
+  --card-bg: var(--color-surface);
+  --edge: color-mix(in srgb, var(--accent) 55%, transparent);
   position: relative;
   isolation: isolate;
-  transition:
-    border-color 200ms ease-out,
-    background-color 200ms ease-out,
-    --glow 250ms ease-out;
+  /* Borde degradado del color de la modalidad: más intenso en las esquinas, sobrio en el centro */
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+    linear-gradient(135deg, var(--edge), var(--color-line) 35% 65%, var(--edge)) border-box;
+  transition: --glow 250ms ease-out;
 
   &[data-mode="speed"] {
     --accent: var(--color-sunset);
@@ -227,8 +231,8 @@ body {
   &:hover,
   &:focus-visible {
     --glow: 1;
-    background-color: var(--color-surface-2);
-    border-color: color-mix(in srgb, var(--accent) 55%, var(--color-line));
+    --card-bg: var(--color-surface-2);
+    --edge: var(--accent);
 
     .card-accent {
       scale: 1 1;
@@ -237,8 +241,6 @@ body {
 
   @media (prefers-reduced-motion: no-preference) {
     transition:
-      border-color 200ms ease-out,
-      background-color 200ms ease-out,
       --glow 250ms ease-out,
       translate 250ms var(--ease-out-strong),
       scale 120ms ease-out;
@@ -605,4 +607,73 @@ body {
     opacity: 0;
     translate: -50% 40%;
   }
+}
+
+/* ───────────────────────── Páginas internas ───────────────────────── */
+
+/* Banda de escena: alto mínimo fijo, contenido abajo */
+.page-banner {
+  min-height: 340px;
+  @media (width >= 64rem) {
+    min-height: 380px;
+  }
+}
+.banner-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(11 6 18 / 0.85) 0%, rgb(11 6 18 / 0.4) 50%, rgb(11 6 18 / 0.1) 80%),
+    linear-gradient(0deg, var(--color-night) 0%, rgb(11 6 18 / 0.55) 35%, transparent 70%);
+}
+
+/* Sticker pequeño troquelado (modalidad) */
+.sticker-sm {
+  rotate: -3deg;
+  box-shadow:
+    0 0 0 2px #fff4f8,
+    0 4px 10px rgb(0 0 0 / 0.4);
+}
+.mode-sticker {
+  background: var(--color-vice);
+  &[data-mode="speed"] {
+    background: var(--color-sunset);
+  }
+  &[data-mode="community"] {
+    background: var(--color-tide);
+  }
+}
+
+/* Filtros: pastillas con borde degradado; la activa se rellena */
+.filter-pill {
+  --pill-bg: var(--color-night);
+  color: var(--color-ink);
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--pill-bg), var(--pill-bg)) padding-box,
+    linear-gradient(90deg, var(--color-ocean), var(--color-vice), var(--color-sunset)) border-box;
+  transition: box-shadow 200ms ease-out;
+
+  &:hover {
+    --pill-bg: var(--color-surface-2);
+    box-shadow: var(--shadow-glow-vice);
+  }
+  &[aria-current="page"] {
+    --pill-bg: var(--color-vice);
+    color: var(--color-night);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    &:active {
+      scale: 0.96;
+    }
+  }
+}
+
+/* Ranking: el primer puesto brilla en amarillo */
+/* Degradado en la fila (no en cada celda) para que sea continuo */
+.ranking-top {
+  background: linear-gradient(90deg, rgb(255 225 77 / 0.16), rgb(255 225 77 / 0.03) 70%);
+}
+.ranking-top > :first-child {
+  box-shadow: inset 3px 0 0 var(--color-marker);
 }

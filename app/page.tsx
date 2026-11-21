@@ -2,7 +2,6 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { ChallengeCard } from "@/components/challenge-card";
 import { HeroScene } from "@/components/hero-scene";
-import { MotionToggle } from "@/components/motion-toggle";
 import { WeeklyCard } from "@/components/weekly-card";
 import { verification } from "@/lib/challenges";
 import { getWeeklyChallenge, listChallenges } from "@/lib/data";
@@ -53,9 +52,6 @@ export default async function Home() {
             </Link>
           </div>
           {weekly && <WeeklyCard challenge={weekly} />}
-        </div>
-        <div className="page-frame relative -mt-14 flex justify-end pb-4">
-          <MotionToggle />
         </div>
       </section>
 

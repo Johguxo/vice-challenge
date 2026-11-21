@@ -169,3 +169,13 @@ Referencia de ambiente (las imágenes locales en `assets/references/`, ignoradas
 - `.hero-shade`: oscurece el lado del texto y funde la escena con la página.
 - `components/weekly-card.tsx`: protagonista del hero. Sol con franjas que se asoma por detrás (`.weekly-sun`), borde degradado que gira, halo, cuenta atrás hasta el lunes, récord a batir y podio.
 - `components/site-shell.tsx`: wordmark SVG estilo sticker (`VICE` con degradado y contorno), pastilla con borde degradado y línea de marca bajo el header.
+
+## 11. Páginas internas
+
+Mismo lenguaje que la portada, con menos protagonismo:
+
+- `components/page-banner.tsx`: la escena del hero en versión baja (`<HeroScene variant="banner" />`) como cabecera de `/retos` y del detalle. Alto mínimo fijo y contenido alineado abajo.
+- Tarjetas de reto: borde degradado del color de su modalidad (más intenso al pasar el ratón) y sticker troquelado pequeño (`.sticker-sm`).
+- Filtros: pastillas con borde degradado (`.filter-pill`); la activa se rellena de `vice`.
+- Detalle: "Récord a batir" reutiliza el borde que gira del reto semanal (`.weekly-frame` + `.weekly-halo`); el primer puesto del ranking lleva corona y franja amarilla (`.ranking-top`).
+- El botón "Pausar animación" vive en el header (`components/motion-toggle.tsx`), porque hay escena animada en todas las páginas. En móvil es solo icono, con el texto como nombre accesible.

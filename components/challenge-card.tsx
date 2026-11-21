@@ -16,12 +16,12 @@ export function ChallengeCard({ challenge }: { challenge: Challenge }) {
       transitionTypes={["nav-forward"]}
       data-glow
       data-mode={challenge.mode}
-      className="challenge-card border-line bg-surface group block h-full min-w-0 overflow-hidden rounded-md border"
+      className="challenge-card group block h-full min-w-0 overflow-hidden rounded-md"
     >
       <article className="flex h-full flex-col gap-4 p-5">
         <span aria-hidden="true" className="card-accent absolute inset-x-0 top-0 h-1 bg-(--accent)" />
         <header className="flex items-start justify-between gap-3">
-          <p className="text-night -rotate-2 bg-(--accent) px-2 py-0.5 text-sm font-bold">{modes[challenge.mode]}</p>
+          <p className="sticker-sm text-night bg-(--accent) px-2 py-0.5 text-sm font-bold">{modes[challenge.mode]}</p>
           <ArrowUpRight
             aria-hidden="true"
             className="card-arrow text-ink-muted size-5 shrink-0 group-hover:text-(--accent)"
