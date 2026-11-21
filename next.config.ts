@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   // /retos fue la primera ruta; los enlaces ya compartidos deben seguir funcionando.
   redirects() {
     return [
-      { source: "/retos", destination: "/challenges", permanent: true },
+      { source: "/retos", destination: "/challenges/explorar", permanent: true },
       { source: "/retos/:slug", destination: "/challenges/:slug", permanent: true },
     ];
   },

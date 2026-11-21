@@ -1,14 +1,14 @@
-import { Flame } from "lucide-react";
 import Link from "next/link";
+import { AppNav } from "@/components/app-nav";
 import { MotionToggle } from "@/components/motion-toggle";
 
-// Wordmark propio estilo sticker: relleno degradado azul→rosa→naranja, contorno oscuro y troquel blanco.
+// Wordmark ViceApp estilo sticker: relleno degradado azul→rosa→naranja, contorno oscuro y troquel blanco.
 // Es SVG para que el contorno (paint-order) se vea igual en todos los navegadores.
 function Wordmark() {
   const text = { fontFamily: "var(--font-display)", fontWeight: 900, fontStretch: "125%" } as const;
   return (
-    <svg viewBox="0 0 178 62" className="wordmark h-11 w-auto overflow-visible sm:h-12" role="img">
-      <title>Vice Challenges</title>
+    <svg viewBox="0 0 178 62" className="wordmark h-10 w-auto overflow-visible sm:h-12" role="img">
+      <title>ViceApp</title>
       <defs>
         <linearGradient id="wordmark-fill" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#5b7cff" />
@@ -47,18 +47,18 @@ function Wordmark() {
           VICE
         </text>
         <text
-          x="10"
-          y="57"
-          textLength="152"
-          lengthAdjust="spacingAndGlyphs"
-          fontSize="14"
+          x="89"
+          y="58"
+          textAnchor="middle"
+          letterSpacing="10"
+          fontSize="15"
           style={text}
           fill="#fff4f8"
           stroke="#1a0a3a"
           strokeWidth="3"
           paintOrder="stroke"
         >
-          CHALLENGES
+          APP
         </text>
       </g>
     </svg>
@@ -69,19 +69,12 @@ export function SiteHeader() {
   return (
     <header className="site-header sticky top-0 z-30">
       <div className="page-frame flex min-h-16 items-center justify-between gap-4 py-2">
-        <Link href="/" aria-label="Vice Challenges, inicio" className="wordmark-link inline-flex min-h-11 items-center">
+        <Link href="/" aria-label="ViceApp, elegir app" className="wordmark-link inline-flex min-h-11 items-center">
           <Wordmark />
         </Link>
         <nav aria-label="Principal" className="flex items-center gap-2">
           <MotionToggle />
-          <Link
-            href="/challenges"
-            className="nav-pill text-ink inline-flex min-h-11 items-center gap-2 rounded-full px-4 text-sm font-bold whitespace-nowrap"
-          >
-            <Flame aria-hidden="true" className="text-sunset size-4" />
-            <span className="sm:hidden">Retos</span>
-            <span className="hidden sm:inline">Explorar retos</span>
-          </Link>
+          <AppNav />
         </nav>
       </div>
     </header>

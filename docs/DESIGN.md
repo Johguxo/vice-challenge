@@ -179,3 +179,16 @@ Mismo lenguaje que la portada, con menos protagonismo:
 - Filtros: pastillas con borde degradado (`.filter-pill`); la activa se rellena de `vice`.
 - Detalle: "Récord a batir" reutiliza el borde que gira del reto semanal (`.weekly-frame` + `.weekly-halo`); el primer puesto del ranking lleva corona y franja amarilla (`.ranking-top`).
 - El botón "Pausar animación" vive en el header (`components/motion-toggle.tsx`), porque hay escena animada en todas las páginas. En móvil es solo icono, con el texto como nombre accesible.
+
+## 12. Diario (`/journal`): recortes de cuaderno
+
+Retos es neón y paneles oscuros; el Diario es **papel sobre la noche**. Misma escena de fondo, otro material.
+
+- Tokens: `paper` (#fff3df), `paper-ink`, `paper-muted`, `paper-line`. Texto sobre papel siempre en `paper-ink`.
+- `.journal-card`: hoja rayada con margen rosa, girada con `--tilt` (±2° como máximo) y se endereza al pasar el puntero.
+- `.tape`: cinta translúcida con bordes dentados, color por `data-tint`.
+- `.polaroid` + `Postcard`: la "captura" es una ilustración SVG propia por escena (`playa`, `carretera`, `ciudad`, `pantano`, `cielo`). Nunca capturas del juego ni arte oficial en datos de ejemplo.
+- `.stamp`: sello de goma doble para "Reto superado"; enlaza al reto. Es el puente entre apps.
+- `.sticky-note`: nota adhesiva amarilla para la pregunta del día.
+- `.avatar` con `data-tint`: inicial sobre el color del jugador.
+- Fuente marker para lo escrito a mano (títulos de día, horas, pies de foto). El cuerpo sigue en sans para que se lea bien.

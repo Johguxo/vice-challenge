@@ -1,118 +1,106 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight, Flame, Lightbulb, NotebookPen } from "lucide-react";
 import Link from "next/link";
-import { ChallengeCard } from "@/components/challenge-card";
 import { HeroScene } from "@/components/hero-scene";
-import { WeeklyCard } from "@/components/weekly-card";
-import { verification } from "@/lib/challenges";
-import { getWeeklyChallenge, listChallenges } from "@/lib/data";
+import { Postcard } from "@/components/journal/postcard";
 
-const steps = [
-  { title: "Elige un reto", description: "Lee el objetivo y decide qué reglas quieres poner a prueba." },
+// Portada interna de ViceApp: un botón por app. Cada idea nueva de docs/IDEAS.md suma una tarjeta aquí.
+const apps = [
   {
-    title: "Juega y guarda tu intento",
-    description: "Cumple las reglas y guarda la captura o el vídeo que pide el reto.",
+    href: "/challenges",
+    name: "Retos",
+    brand: "Vice Challenges",
+    description: "Crea retos, sube tu prueba y pelea el ranking.",
+    status: "Viva",
+    icon: Flame,
+    mode: "speed",
+    preview: "challenges",
   },
   {
-    title: "Demuestra tu resultado",
-    description: "Los intentos aprobados entran al ranking cuando el reto tiene clasificación.",
+    href: "/journal",
+    name: "Diario",
+    brand: "Bitácora de partida",
+    description: "Tus locuras, fails y retos superados, día a día.",
+    status: "Nueva",
+    icon: NotebookPen,
+    mode: "community",
+    preview: "journal",
   },
-];
+] as const;
 
-export default async function Home() {
-  const [weekly, challenges] = await Promise.all([getWeeklyChallenge(), listChallenges()]);
-  const moreChallenges = challenges.filter((challenge) => challenge.slug !== weekly?.slug).slice(0, 3);
-
+export default function Hub() {
   return (
-    <main id="contenido">
-      <section className="hero relative isolate overflow-hidden">
-        <HeroScene />
-        <div aria-hidden="true" className="hero-shade" />
-        <div className="page-frame relative grid items-end gap-20 pt-14 pb-20 sm:pt-20 lg:min-h-[720px] lg:grid-cols-[1.45fr_1fr] lg:gap-12 lg:pb-24">
-          <div className="relative z-10">
-            <h1 className="font-display font-wide text-[clamp(2.125rem,6.25vw,4.5rem)] leading-[0.95] font-black tracking-tight">
-              <span className="hero-line block" style={{ "--i": 0 } as React.CSSProperties}>
-                Inventa el reto.
-              </span>
-              <span className="hero-line block" style={{ "--i": 1 } as React.CSSProperties}>
-                Rómpelo.
-              </span>
-            </h1>
-            <p
-              className="hero-line mt-5 max-w-[38ch] text-lg leading-relaxed"
-              style={{ "--i": 2 } as React.CSSProperties}
-            >
-              Retos de GTA VI creados por la comunidad. Pon a prueba tu habilidad y demuestra tu mejor intento.
-            </p>
-            <Link
-              href="/challenges"
-              className="hero-line action border-ink/70 text-ink hover:bg-ink hover:text-night bg-night/30 mt-7 backdrop-blur-sm active:scale-[0.97]"
-              style={{ "--i": 3 } as React.CSSProperties}
-            >
-              Explorar retos <ArrowRight aria-hidden="true" className="size-5" />
-            </Link>
-          </div>
-          {weekly && <WeeklyCard challenge={weekly} />}
-        </div>
-      </section>
+    <main id="contenido" className="hero relative isolate flex-1 overflow-hidden">
+      <HeroScene />
+      <div aria-hidden="true" className="hero-shade" />
+      <div className="page-frame relative pt-12 pb-20 sm:pt-16 lg:pt-20">
+        <p className="sticker bg-marker text-night font-marker inline-block px-3 py-1 text-lg">Team Chis 🧀 · interno</p>
+        <h1 className="font-display font-wide mt-6 text-[clamp(2.5rem,7vw,5rem)] leading-[0.95] font-black tracking-tight">
+          <span className="hero-line block" style={{ "--i": 0 } as React.CSSProperties}>
+            ¿A qué app
+          </span>
+          <span className="hero-line block" style={{ "--i": 1 } as React.CSSProperties}>
+            vamos hoy?
+          </span>
+        </h1>
+        <p className="hero-line mt-5 max-w-[42ch] text-lg leading-relaxed" style={{ "--i": 2 } as React.CSSProperties}>
+          ViceApp junta todas nuestras ideas para GTA VI. Elige una y entra.
+        </p>
 
-      <section className="page-frame py-12 lg:py-16" aria-labelledby="more-challenges">
-        <h2 id="more-challenges" className="font-display font-semiwide text-2xl font-extrabold sm:text-[32px]">
-          Más retos
-        </h2>
-        {moreChallenges.some((challenge) => challenge.example) && (
-          <p className="text-ink-muted mt-2">Retos y marcas de ejemplo.</p>
-        )}
-        {moreChallenges.length > 0 ? (
-          <ul className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {moreChallenges.map((challenge) => (
-              <li key={challenge.slug} className="reveal">
-                <ChallengeCard challenge={challenge} />
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-ink-muted mt-3">Vuelve pronto para descubrir nuevos retos.</p>
-        )}
-      </section>
-
-      <section className="border-line border-y">
-        <div className="page-frame py-12 lg:py-16">
-          <h2 className="font-display font-semiwide text-2xl font-extrabold sm:text-[32px]">Cómo funciona</h2>
-          <ol className="mt-6 grid gap-5 md:grid-cols-3">
-            {steps.map((step, index) => (
-              <li key={step.title} className="border-line grid grid-cols-[auto_1fr] gap-x-4 border-t pt-4">
-                <span aria-hidden="true" className="text-vice font-mono text-xl font-semibold">
-                  {index + 1}
+        <ul className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {apps.map(({ href, name, brand, description, status, icon: Icon, mode, preview }, i) => (
+            <li key={href} className="hero-line" style={{ "--i": 3 + i } as React.CSSProperties}>
+              <Link
+                href={href}
+                data-mode={mode}
+                className="challenge-card app-tile group flex h-full min-h-80 flex-col overflow-hidden rounded-[14px] p-6"
+              >
+                <span className="flex items-start justify-between gap-4">
+                  <span className="app-icon grid size-14 place-items-center rounded-xl">
+                    <Icon aria-hidden="true" className="text-night size-7" />
+                  </span>
+                  <span className="sticker-sm mode-sticker text-night px-2 py-0.5 text-sm font-bold" data-mode={mode}>
+                    {status}
+                  </span>
                 </span>
-                <div>
-                  <h3 className="font-display text-xl font-extrabold">{step.title}</h3>
-                  <p className="text-ink-muted mt-2 leading-relaxed">{step.description}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <div className="page-frame grid gap-10 py-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16 lg:py-16">
-        <section>
-          <h2 className="font-display font-semiwide text-2xl font-extrabold sm:text-[32px]">Niveles de verificación</h2>
-          <dl className="divide-line mt-5 divide-y">
-            {Object.values(verification).map(({ label, description }) => (
-              <div key={label} className="py-3">
-                <dt className="font-bold">{label}</dt>
-                <dd className="text-ink-muted mt-1 leading-relaxed">{description}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-        <section className="bg-surface border-line self-start rounded-md border p-6">
-          <h2 className="font-display font-semiwide text-2xl font-extrabold">Team Chis 🧀</h2>
-          <p className="text-ink-muted mt-3 leading-relaxed">
-            Somos el equipo detrás de Vice Challenges. Creamos este espacio para que los fans propongan sus propios
-            retos y compartan cómo los superaron.
-          </p>
-        </section>
+                <span className="app-preview mt-6 flex-1" aria-hidden="true">
+                  {preview === "challenges" ? (
+                    <span className="flex h-full flex-col justify-center">
+                      <span className="text-ink-muted text-xs font-semibold">Récord a batir</span>
+                      <span className="text-marker font-mono text-4xl font-bold tabular-nums">02:41.380</span>
+                    </span>
+                  ) : (
+                    <span className="flex h-full items-center">
+                      <span className="polaroid block w-40 -rotate-3">
+                        <Postcard scene="playa" seed="hub" className="block aspect-[4/3] w-full" />
+                        <span className="font-marker text-paper-ink block py-1 text-center text-xs">día 1</span>
+                      </span>
+                    </span>
+                  )}
+                </span>
+                <span className="mt-6 flex items-end justify-between gap-4">
+                  <span>
+                    <span className="text-ink-muted block text-xs font-semibold tracking-wide uppercase">{brand}</span>
+                    <span className="font-display font-wide block text-4xl font-black">{name}</span>
+                    <span className="text-ink-muted mt-1 block leading-relaxed">{description}</span>
+                  </span>
+                  <ArrowUpRight aria-hidden="true" className="card-arrow text-ink size-7 shrink-0" />
+                </span>
+              </Link>
+            </li>
+          ))}
+          <li className="hero-line" style={{ "--i": 5 } as React.CSSProperties}>
+            <a
+              href="https://github.com/Johguxo/vice-challenge/blob/main/docs/IDEAS.md"
+              className="idea-tile flex h-full min-h-48 flex-col md:min-h-80 justify-end gap-2 rounded-[14px] p-6"
+            >
+              <Lightbulb aria-hidden="true" className="text-marker mb-auto size-8" />
+              <span className="font-display font-wide text-3xl font-black">Tu próxima idea</span>
+              <span className="text-ink-muted leading-relaxed">
+                Apúntala en <code className="font-mono text-sm">docs/IDEAS.md</code> y la armamos.
+              </span>
+            </a>
+          </li>
+        </ul>
       </div>
     </main>
   );

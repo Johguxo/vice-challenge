@@ -38,7 +38,7 @@ export default function ChallengePage({ params }: PageProps<"/challenges/[slug]"
     <main id="contenido">
       <PageBanner>
         <Link
-          href="/challenges"
+          href="/challenges/explorar"
           transitionTypes={["nav-back"]}
           className="text-ink/85 hover:text-ink inline-flex min-h-11 items-center gap-2 self-start text-sm font-semibold"
         >

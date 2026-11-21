@@ -7,22 +7,25 @@
 
 ## Cómo se organiza la web
 
-| Ruta          | Qué es                                                     | Estado |
-| ------------- | ---------------------------------------------------------- | ------ |
-| `/`           | Portada. Hoy muestra el reto semanal; pasará a ser el hub. | Viva   |
-| `/challenges` | Retos: explorar, detalle, reglas y ranking                 | Viva   |
-| `/journal`    | **Diario**: las locuras y logros de cada jugador           | Idea   |
+| Ruta                   | Qué es                                                   | Estado          |
+| ---------------------- | -------------------------------------------------------- | --------------- |
+| `/`                    | Hub interno: un botón por app                            | Viva            |
+| `/challenges`          | Portada de Retos (reto semanal, cómo funciona)           | Viva            |
+| `/challenges/explorar` | Lista de retos con filtros                               | Viva            |
+| `/challenges/[slug]`   | Detalle de reto: reglas y ranking                        | Viva            |
+| `/journal`             | **Diario**: feed de la comunidad + pregunta del día      | En construcción |
+| `/journal/[username]`  | Diario de un jugador: línea de tiempo por día de partida | En construcción |
 
 Reglas de rutas:
 
 - **Una carpeta por app** en `app/<app>/`. Las URLs van sin prefijo `/app/`: los enlaces se comparten en TikTok y Discord, y cuanto más cortos, mejor.
 - Las rutas antiguas no se rompen: si una URL cambia, se añade un `redirect` permanente en `next.config.ts`. Por ejemplo, `/retos` redirige a `/challenges`.
 - El código compartido entre apps (cuenta, perfil, escena del hero, tarjetas para compartir) vive en `components/` y `lib/`. Lo que es de una sola app vive junto a su ruta.
-- Cuando haya dos apps vivas, la portada pasa a ser el hub: una tarjeta grande por app y el contenido más reciente de cada una.
+- La portada `/` es el hub: una tarjeta por app (`apps` en `app/page.tsx`) y la del header (`components/app-nav.tsx`). Una app nueva suma una entrada en los dos.
 
 ## Diario (`/journal`)
 
-**Estado:** Idea
+**Estado:** En construcción. Primera versión visual con datos de ejemplo (`lib/journal.ts`); falta Supabase, publicar entradas y la página de cada entrada.
 **En una frase:** un diario público donde cada jugador va contando lo que le pasa en GTA VI mientras juega: locuras, momentos épicos, fails y retos superados.
 
 ### Por qué

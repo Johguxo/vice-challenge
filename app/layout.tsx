@@ -27,11 +27,11 @@ const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "Vice Challenges", template: "%s | Vice Challenges" },
-  openGraph: { siteName: "Vice Challenges", locale: "es_419", type: "website" },
+  title: { default: "ViceApp", template: "%s | ViceApp" },
+  openGraph: { siteName: "ViceApp", locale: "es_419", type: "website" },
   twitter: { card: "summary_large_image" },
   description:
-    "Retos de GTA VI creados por la comunidad: crea uno, juega, sube tu prueba y pelea el ranking. Proyecto de fans no oficial.",
+    "Apps de fans para GTA VI: retos de la comunidad y un diario de partida. Proyecto de fans no oficial.",
 };
 
 export const viewport: Viewport = { themeColor: "#0b0612" };
