@@ -1,95 +1,118 @@
-import { ArrowDown, ArrowUpRight, BookOpen, MapPin } from "lucide-react";
+import { ArrowUpRight, Flame, Lightbulb, NotebookPen } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
+import { HeroScene } from "@/components/hero-scene";
 import { Postcard } from "@/components/journal/postcard";
 
-const discoveries = [
+export const metadata: Metadata = {
+  description: "Elige entre Vice Challenges y el diario de aventuras de Team Chis.",
+};
+
+// El hub ofrece un acceso por app. Ver docs/IDEAS.md.
+const apps = [
   {
-    scene: "playa",
-    title: "El último sol del muelle",
-    author: "mar_de_fondo",
-    note: "Paré un momento. Me quedé hasta que oscureció.",
+    href: "/challenges",
+    name: "Retos",
+    brand: "Vice Challenges",
+    description: "Crea retos, sube tu prueba y pelea el ranking.",
+    status: "Viva",
+    icon: Flame,
+    mode: "speed",
+    preview: "challenges",
   },
   {
-    scene: "carretera",
-    title: "Un desvío al amanecer",
-    author: "luna_costera",
-    note: "La mejor parte del viaje fue tomar el camino largo.",
-  },
-  {
-    scene: "pantano",
-    title: "Luces sobre el agua",
-    author: "ruta_neon",
-    note: "Volvería al pantano solo por ver ese reflejo.",
+    href: "/journal",
+    name: "Diario",
+    brand: "CHIS Explorer",
+    description: "Abre tu cuaderno y explora recuerdos de Leonida.",
+    status: "Nueva",
+    icon: NotebookPen,
+    mode: "community",
+    preview: "journal",
   },
 ] as const;
 
-export default function Home() {
+export default function Hub() {
   return (
-    <main id="contenido" className="chis-home">
-      <section className="page-frame pt-8 pb-12 sm:pt-14 sm:pb-16" aria-labelledby="home-title">
-        <div className="chis-book">
-          <div className="chis-sheet chis-cover">
-            <p className="text-paper-muted font-marker text-sm sm:text-base">Diario de aventuras</p>
-            <h1 id="home-title" className="chis-title mt-5">
-              Cada rincón de Leonida tiene una historia.
-            </h1>
-            <p className="chis-hand mt-4">Guarda la tuya.</p>
-            <p className="text-paper-muted mt-5 max-w-[36ch] leading-relaxed">
-              Un cuaderno para guardar las capturas, los lugares y las anécdotas de tus partidas en GTA VI.
-            </p>
-            <div className="mt-7 flex flex-wrap items-center gap-3">
-              <Link href="/journal" className="action chis-primary">
-                <BookOpen aria-hidden="true" className="size-5" /> Abrir mi diario
-              </Link>
-              <a href="#recuerdos" className="action chis-secondary">
-                Explorar recuerdos <ArrowDown aria-hidden="true" className="size-4" />
-              </a>
-            </div>
-          </div>
-          <div className="chis-sheet chis-illustration">
-            <div className="chis-postmark">
-              <MapPin aria-hidden="true" className="size-4" /> Leonida
-            </div>
-            <figure className="chis-hero-photo">
-              <span className="chis-photo-tape" aria-hidden="true" />
-              <Postcard scene="playa" seed="chis-cover" className="block aspect-[4/3] w-full" />
-              <figcaption className="font-marker px-2 py-3 text-center text-lg">El último sol del muelle</figcaption>
-            </figure>
-            <p className="chis-margin-note font-marker text-sm">Anota dónde quieres volver.</p>
-          </div>
-        </div>
-      </section>
+    <main id="contenido" className="hero relative isolate flex-1 overflow-hidden">
+      <HeroScene />
+      <div aria-hidden="true" className="hero-shade" />
+      <div className="page-frame relative pt-12 pb-20 sm:pt-16 lg:pt-20">
+        <p className="sticker bg-marker text-night font-marker inline-block px-3 py-1 text-lg">
+          Team Chis 🧀 · interno
+        </p>
+        <h1 className="font-display font-wide mt-6 text-[clamp(2.5rem,7vw,5rem)] leading-[0.95] font-black tracking-tight">
+          <span className="hero-line block" style={{ "--i": 0 } as React.CSSProperties}>
+            ¿A qué app
+          </span>
+          <span className="hero-line block" style={{ "--i": 1 } as React.CSSProperties}>
+            vamos hoy?
+          </span>
+        </h1>
+        <p className="hero-line mt-5 max-w-[42ch] text-lg leading-relaxed" style={{ "--i": 2 } as React.CSSProperties}>
+          Elige una app de Team Chis para tus aventuras en GTA VI.
+        </p>
 
-      <section
-        id="recuerdos"
-        className="page-frame chis-discoveries scroll-mt-24 pb-14 sm:pb-20"
-        aria-labelledby="discoveries-title"
-      >
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h2 id="discoveries-title" className="font-display text-3xl leading-tight font-black sm:text-5xl">
-              Descubrimientos destacados
-            </h2>
-            <p className="text-ink-muted mt-2">Postales ilustradas e historias de ejemplo.</p>
-          </div>
-          <Link href="/journal/stories" className="chis-dark-link">
-            Explorar historias <ArrowUpRight aria-hidden="true" className="size-5" />
-          </Link>
-        </div>
-        <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {discoveries.map(({ scene, title, author, note }) => (
-            <li key={scene}>
-              <Link href={`/journal/${author}`} className="chis-discovery">
-                <Postcard scene={scene} seed={author} className="block aspect-[16/10] w-full" />
-                <div className="px-3 pt-4 pb-3">
-                  <h3 className="font-marker text-xl">{title}</h3>
-                  <p className="text-paper-muted mt-2 leading-relaxed">{note}</p>
-                </div>
-              </Link>
+        <nav aria-label="Selector de apps">
+          <ul className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {apps.map(({ href, name, brand, description, status, icon: Icon, mode, preview }, i) => (
+              <li key={href} className="hero-line" style={{ "--i": 3 + i } as React.CSSProperties}>
+                <Link
+                  href={href}
+                  data-mode={mode}
+                  className="challenge-card app-tile group flex h-full min-h-80 flex-col overflow-hidden rounded-[14px] p-6"
+                >
+                  <span className="flex items-start justify-between gap-4">
+                    <span className="app-icon grid size-14 place-items-center rounded-xl">
+                      <Icon aria-hidden="true" className="text-night size-7" />
+                    </span>
+                    <span className="sticker-sm mode-sticker text-night px-2 py-0.5 text-sm font-bold" data-mode={mode}>
+                      {status}
+                    </span>
+                  </span>
+                  <span className="app-preview mt-6 flex-1" aria-hidden="true">
+                    {preview === "challenges" ? (
+                      <span className="flex h-full flex-col justify-center">
+                        <span className="text-ink-muted text-xs font-semibold">Récord a batir</span>
+                        <span className="text-marker font-mono text-4xl font-bold tabular-nums">02:41.380</span>
+                      </span>
+                    ) : (
+                      <span className="flex h-full items-center">
+                        <span className="polaroid block w-40 -rotate-3">
+                          <Postcard scene="playa" seed="hub" className="block aspect-[4/3] w-full" />
+                          <span className="font-marker text-paper-ink block py-1 text-center text-xs">día 1</span>
+                        </span>
+                      </span>
+                    )}
+                  </span>
+                  <span className="mt-6 flex items-end justify-between gap-4">
+                    <span>
+                      <span className="text-ink-muted block text-xs font-semibold tracking-wide uppercase">
+                        {brand}
+                      </span>
+                      <span className="font-display font-wide block text-4xl font-black">{name}</span>
+                      <span className="text-ink-muted mt-1 block leading-relaxed">{description}</span>
+                    </span>
+                    <ArrowUpRight aria-hidden="true" className="card-arrow text-ink size-7 shrink-0" />
+                  </span>
+                </Link>
+              </li>
+            ))}
+            <li className="hero-line" style={{ "--i": 5 } as React.CSSProperties}>
+              <a
+                href="https://github.com/Johguxo/vice-challenge/blob/main/docs/IDEAS.md"
+                className="idea-tile flex h-full min-h-48 flex-col justify-end gap-2 rounded-[14px] p-6 md:min-h-80"
+              >
+                <Lightbulb aria-hidden="true" className="text-marker mb-auto size-8" />
+                <span className="font-display font-wide text-3xl font-black">Tu próxima idea</span>
+                <span className="text-ink-muted leading-relaxed">
+                  Apúntala en <code className="font-mono text-sm">docs/IDEAS.md</code> y la armamos.
+                </span>
+              </a>
             </li>
-          ))}
-        </ul>
-      </section>
+          </ul>
+        </nav>
+      </div>
     </main>
   );
 }

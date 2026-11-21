@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "CHIS Explorer. Cada rincón de Leonida tiene una historia. Guarda la tuya.";
+export const alt = "Team Chis. Elige entre Retos y Diario.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -9,11 +9,9 @@ export default function Image() {
     <div style={{ display: "flex", width: "100%", height: "100%", background: "#24123a", padding: 56 }}>
       <div style={{ display: "flex", flex: 1, borderRadius: 16, background: "#fff3df", color: "#24123a", padding: 48 }}>
         <div style={{ display: "flex", flexDirection: "column", width: 590, justifyContent: "center" }}>
-          <div style={{ fontSize: 26, color: "#6a5479", marginBottom: 20 }}>CHIS Explorer</div>
-          <div style={{ fontSize: 59, fontWeight: 800, lineHeight: 1.05 }}>
-            Cada rincón de Leonida tiene una historia.
-          </div>
-          <div style={{ fontSize: 33, color: "#a41660", marginTop: 18 }}>Guarda la tuya.</div>
+          <div style={{ fontSize: 26, color: "#6a5479", marginBottom: 20 }}>Team Chis</div>
+          <div style={{ fontSize: 59, fontWeight: 800, lineHeight: 1.05 }}>¿A qué app vamos hoy?</div>
+          <div style={{ fontSize: 33, color: "#a41660", marginTop: 18 }}>Vice Challenges y CHIS Explorer</div>
         </div>
         <div
           style={{
@@ -50,9 +48,7 @@ export default function Image() {
               style={{ position: "absolute", inset: "182px 0 0", background: "linear-gradient(#398081, #24123a)" }}
             />
           </div>
-          <div style={{ display: "flex", justifyContent: "center", fontSize: 21, paddingTop: 12 }}>
-            Diario de aventuras
-          </div>
+          <div style={{ display: "flex", justifyContent: "center", fontSize: 21, paddingTop: 12 }}>Retos y Diario</div>
         </div>
       </div>
     </div>,

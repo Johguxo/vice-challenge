@@ -193,6 +193,6 @@ Retos es neón y paneles oscuros; el Diario es **papel sobre la noche**. Misma e
 - `.avatar` con `data-tint`: inicial sobre el color del jugador.
 - Fuente marker para lo escrito a mano (títulos de día, horas, pies de foto). El cuerpo sigue en sans para que se lea bien.
 
-## 13. Portada CHIS Explorer
+## 13. Hub de apps y cuaderno
 
-La portada y la muestra de `/journal` usan el cuaderno abierto `.chis-book`. Reutilizan los tokens de papel y las ilustraciones originales de `Postcard`. En pantallas estrechas las dos hojas se leen en orden vertical. Las postales destacadas enlazan a diarios de ejemplo y el mural vive en `/journal/stories`.
+La portada `/` presenta el selector de apps sobre la escena de atardecer. La muestra del diario en `/journal` usa el cuaderno abierto `.chis-book`, los tokens de papel y las ilustraciones originales de `Postcard`. En pantallas estrechas, las dos hojas se leen en orden vertical. El mural vive en `/journal/stories`.
