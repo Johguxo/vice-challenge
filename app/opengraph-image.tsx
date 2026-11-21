@@ -11,7 +11,7 @@ export default function Image() {
         <div style={{ display: "flex", flexDirection: "column", width: 590, justifyContent: "center" }}>
           <div style={{ fontSize: 26, color: "#6a5479", marginBottom: 20 }}>Team Chis</div>
           <div style={{ fontSize: 59, fontWeight: 800, lineHeight: 1.05 }}>¿A qué app vamos hoy?</div>
-          <div style={{ fontSize: 33, color: "#a41660", marginTop: 18 }}>Vice Challenges y CHIS Explorer</div>
+          <div style={{ fontSize: 33, color: "#a41660", marginTop: 18 }}>Vice Challenges y GTA Journal</div>
         </div>
         <div
           style={{

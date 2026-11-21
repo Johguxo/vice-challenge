@@ -27,10 +27,10 @@ const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "CHIS Explorer", template: "%s | CHIS Explorer" },
-  openGraph: { siteName: "CHIS Explorer", locale: "es_419", type: "website" },
+  title: { default: "Team Chis", template: "%s | Team Chis" },
+  openGraph: { siteName: "Team Chis", locale: "es_419", type: "website" },
   twitter: { card: "summary_large_image" },
-  description: "Cada rincón de Leonida tiene una historia. Guarda la tuya. Un diario de aventuras de Team Chis.",
+  description: "Explora los retos de Vice Challenges y guarda tus aventuras en GTA Journal.",
 };
 
 export const viewport: Viewport = { themeColor: "#0b0612" };

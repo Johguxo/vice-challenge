@@ -1,21 +1,60 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight, BookOpen } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Postcard } from "@/components/journal/postcard";
 import { SamplePages } from "@/components/journal/sample-pages";
 
 export const metadata: Metadata = {
-  title: "Mi diario",
-  description: "Una muestra del cuaderno de aventuras de CHIS Explorer.",
+  title: "GTA Journal",
+  description: "Cada rincón de Leonida tiene una historia. Guarda la tuya.",
+  openGraph: {
+    title: "GTA Journal",
+    description: "Cada rincón de Leonida tiene una historia. Guarda la tuya.",
+    siteName: "Team Chis",
+    images: ["/journal/coastal-dusk.webp"],
+  },
 };
 
 export default function JournalPage() {
   return (
     <main id="contenido" className="chis-home flex-1">
-      <div className="page-frame py-8 sm:py-12">
+      <section className="journal-hero" aria-labelledby="journal-title">
+        <Image
+          src="/journal/coastal-dusk.webp"
+          alt=""
+          fill
+          sizes="(max-width: 640px) 140vw, 100vw"
+          loading="eager"
+          fetchPriority="high"
+          className="journal-hero-image"
+        />
+        <div className="page-frame journal-hero-content">
+          <p className="journal-hero-kicker">Diario de aventuras en Leonida</p>
+          <h1 id="journal-title" className="journal-hero-title">
+            GTA <span>Journal</span>
+          </h1>
+          <p className="journal-hero-copy">Cada rincón de Leonida tiene una historia. Guarda la tuya.</p>
+          <div className="mt-7 flex flex-wrap items-center gap-3">
+            <a href="#mi-diario" className="action journal-hero-primary">
+              <BookOpen aria-hidden="true" className="size-5" /> Abrir mi diario
+            </a>
+            <Link href="/journal/stories" className="action journal-hero-secondary">
+              Explorar historias <ArrowUpRight aria-hidden="true" className="size-5" />
+            </Link>
+          </div>
+          <a href="#mi-diario" aria-label="Bajar al cuaderno" className="journal-hero-scroll">
+            <ArrowDown aria-hidden="true" className="size-5" />
+          </a>
+        </div>
+      </section>
+
+      <section id="mi-diario" className="page-frame scroll-mt-20 py-8 sm:py-12" aria-labelledby="sample-title">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-2">
           <div>
-            <h1 className="font-display text-4xl font-black sm:text-5xl">Mi diario</h1>
+            <h2 id="sample-title" className="font-display text-4xl font-black sm:text-5xl">
+              Mi diario
+            </h2>
             <p className="text-ink-muted mt-2">
               Cuaderno de muestra. Las cuentas y el guardado llegarán con el diario privado.
             </p>
@@ -59,7 +98,7 @@ export default function JournalPage() {
             </div>,
           ]}
         />
-      </div>
+      </section>
     </main>
   );
 }

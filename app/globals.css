@@ -1178,3 +1178,130 @@ button.chis-dark-link:not(:disabled) {
     transform: translateY(4px);
   }
 }
+
+/* GTA Journal cinematic entry. The shared app selector keeps its own visual. */
+.journal-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: calc(100vh - 4rem);
+  min-height: calc(100svh - 4rem);
+  background: var(--color-night);
+  color: var(--color-ink);
+}
+
+.journal-hero-image {
+  z-index: -2;
+  object-fit: cover;
+  object-position: 65% center;
+}
+
+.journal-hero::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--color-night) 85%, transparent), transparent 96%),
+    linear-gradient(0deg, var(--color-night), transparent 42%);
+}
+
+.journal-hero-content {
+  position: relative;
+  padding-block: 4.5rem 6rem;
+}
+
+.journal-hero-kicker {
+  color: var(--color-ink);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.journal-hero-title {
+  margin-block-start: 1.25rem;
+  font-family: var(--font-display);
+  font-stretch: 85%;
+  font-size: clamp(4rem, 12vw, 10.5rem);
+  font-weight: 900;
+  line-height: 0.82;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+}
+
+.journal-hero-title span {
+  display: block;
+  color: color-mix(in srgb, var(--color-vice) 46%, var(--color-paper));
+}
+
+.journal-hero-copy {
+  max-width: 35ch;
+  margin-block-start: 1.75rem;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  line-height: 1.55;
+}
+
+.journal-hero-primary {
+  background: var(--color-paper);
+  color: var(--color-night);
+}
+
+.journal-hero-primary:hover {
+  background: color-mix(in srgb, var(--color-paper) 75%, var(--color-vice));
+}
+
+.journal-hero-secondary {
+  border-color: var(--color-ink-muted);
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-night) 70%, transparent);
+}
+
+.journal-hero-secondary:hover {
+  background: var(--color-surface-2);
+}
+
+.journal-hero-scroll {
+  display: none;
+}
+
+@media (width >= 48rem) {
+  .journal-hero-scroll {
+    position: absolute;
+    inset-block-end: 0;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-ink-muted);
+    border-radius: 50%;
+  }
+
+  .journal-hero-scroll:hover {
+    background: var(--color-surface-2);
+  }
+}
+
+@media (width < 40rem) {
+  .journal-hero::before {
+    background: linear-gradient(
+      0deg,
+      var(--color-night),
+      color-mix(in srgb, var(--color-night) 48%, transparent) 65%,
+      transparent
+    );
+  }
+
+  .journal-hero {
+    align-items: end;
+  }
+
+  .journal-hero-title {
+    font-size: clamp(3.15rem, 13.25vw, 5.7rem);
+  }
+
+  .journal-hero-content {
+    padding-block: 5.5rem 3rem;
+  }
+}

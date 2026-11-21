@@ -23,7 +23,7 @@ const apps = [
   {
     href: "/journal",
     name: "Diario",
-    brand: "CHIS Explorer",
+    brand: "GTA Journal",
     description: "Abre tu cuaderno y explora recuerdos de Leonida.",
     status: "Nueva",
     icon: NotebookPen,

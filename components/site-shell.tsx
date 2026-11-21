@@ -6,12 +6,8 @@ export function SiteHeader() {
   return (
     <header className="site-header sticky top-0 z-30">
       <div className="page-frame flex min-h-16 items-center justify-between gap-4 py-2">
-        <Link
-          href="/"
-          aria-label="CHIS Explorer, inicio"
-          className="chis-wordmark inline-flex min-h-11 items-center gap-2"
-        >
-          <span>CHIS</span> <span>Explorer</span>
+        <Link href="/" aria-label="Team Chis, inicio" className="chis-wordmark inline-flex min-h-11 items-center gap-2">
+          <span>Team</span> <span>Chis</span>
         </Link>
         <nav aria-label="Principal" className="flex items-center gap-2">
           <MotionToggle />
