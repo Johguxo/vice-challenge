@@ -1,30 +1,50 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, ImagePlus, Maximize2, Plus, Star, Sticker, StickyNote, X } from "lucide-react";
-import { useEffect, useRef, useState, type ChangeEvent, type MouseEvent } from "react";
+import {
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  ImagePlus,
+  Maximize2,
+  Plus,
+  Star,
+  Sticker,
+  StickyNote,
+  X,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent, type MouseEvent } from "react";
+import { uploadNotebookPhoto } from "@/app/journal/write/actions";
 import { NotebookPiece, stickers } from "./notebook-piece";
 import {
   blankPage,
   openNotebook,
   prepareNotebookPhoto,
   readNotebook,
-  saveNotebook,
+  type NotebookSnapshot,
   type NotebookPage,
   type NotebookPiece as Piece,
 } from "./notebook-storage";
 import { paginateNotebookText } from "./notebook-text";
+import { notebookSaveMessages, useNotebookSync } from "./use-notebook-sync";
 
-export function Notebook() {
-  const [pages, setPages] = useState<NotebookPage[]>([blankPage()]);
-  const [pageIndex, setPageIndex] = useState(0);
-  const [ready, setReady] = useState(false);
-  const [saveState, setSaveState] = useState("Abriendo tu libreta…");
+export function Notebook({ owner, initial, revision }: { owner: string; initial: NotebookSnapshot; revision: number }) {
+  const [pages, setPages] = useState(initial.pages);
+  const [pageIndex, setPageIndex] = useState(initial.pageIndex);
+  const [importedLocal, setImportedLocal] = useState(initial.importedLocal);
+  const [localCopy, setLocalCopy] = useState<NotebookSnapshot | null>(null);
+  const [confirmImport, setConfirmImport] = useState(false);
+  const [importingLocal, setImportingLocal] = useState(false);
+  const router = useRouter();
+  const snapshot = useMemo(() => ({ pages, pageIndex, importedLocal }), [pages, pageIndex, importedLocal]);
+  const { status, flush } = useNotebookSync(owner, revision, snapshot);
+  const ready = !importingLocal;
   const [notice, setNotice] = useState("");
   const [stickerPicker, setStickerPicker] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [importing, setImporting] = useState(false);
-  const database = useRef<IDBDatabase | null>(null);
   const fields = useRef(new Map<number, HTMLTextAreaElement>());
   const nextFocus = useRef<{ page: number; offset: number } | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -34,49 +54,65 @@ export function Notebook() {
   const spreadStart = pageIndex - (pageIndex % 2);
 
   useEffect(() => {
-    let disposed = false;
-    let opened: IDBDatabase | undefined;
+    if (importedLocal) return;
+    let active = true;
 
-    async function load() {
+    async function loadLocalCopy() {
+      const database = await openNotebook();
       try {
-        opened = await openNotebook();
-        if (disposed) return opened.close();
-        const saved = await readNotebook(opened);
-        if (disposed) return;
-        database.current = opened;
-        setPages(saved.pages);
-        setPageIndex(saved.pageIndex);
-      } catch {
-        if (!disposed) setSaveState("El navegador no permite guardar esta libreta.");
+        const saved = await readNotebook(database);
+        if (active && saved.pages.some(({ text, favorite, pieces }) => text.trim() || favorite || pieces.length)) {
+          setLocalCopy(saved);
+        }
       } finally {
-        if (!disposed) setReady(true);
+        database.close();
       }
     }
 
-    void load();
+    void loadLocalCopy().catch(() => {});
     return () => {
-      disposed = true;
-      database.current = null;
-      opened?.close();
+      active = false;
     };
-  }, []);
+  }, [importedLocal]);
 
-  useEffect(() => {
-    const db = database.current;
-    if (!ready || !db) return;
-    let current = true;
-    void saveNotebook(db, { pages, pageIndex }).then(
-      () => {
-        if (current) setSaveState("Guardado en este navegador");
-      },
-      () => {
-        if (current) setSaveState("No se pudo guardar en este navegador.");
-      },
-    );
-    return () => {
-      current = false;
-    };
-  }, [pages, pageIndex, ready]);
+  async function uploadPhoto(id: string, dataUrl: string) {
+    const image = await (await fetch(dataUrl)).blob();
+    const form = new FormData();
+    form.set("photo", image, "recuerdo");
+    const result = await uploadNotebookPhoto(owner, id, form);
+    if (!result.ok) throw new Error("Photo upload failed");
+    return result.url;
+  }
+
+  async function importLocalNotebook() {
+    if (!localCopy || importingLocal) return;
+    setImportingLocal(true);
+    try {
+      const imported: NotebookPage[] = [];
+      for (const page of localCopy.pages) {
+        const pieces: Piece[] = [];
+        for (const piece of page.pieces) {
+          pieces.push(piece.kind === "photo" ? { ...piece, value: await uploadPhoto(piece.id, piece.value) } : piece);
+        }
+        imported.push({ ...page, pieces });
+      }
+      const empty = pages.length === 1 && !pages[0].favorite && !pages[0].pieces.length && !pages[0].text;
+      const next = empty ? imported : [...pages, ...imported];
+      if (next.length > 300) {
+        setNotice("La copia local supera el espacio disponible en esta libreta.");
+        return;
+      }
+      setPages(next);
+      setPageIndex((empty ? 0 : pages.length) + localCopy.pageIndex);
+      setImportedLocal(true);
+      setNotice("Páginas importadas. La copia original sigue en este navegador.");
+    } catch {
+      setNotice("No se pudo importar la libreta. La copia local sigue disponible.");
+    } finally {
+      setConfirmImport(false);
+      setImportingLocal(false);
+    }
+  }
 
   useEffect(() => {
     if (!expanded) return;
@@ -136,8 +172,7 @@ export function Notebook() {
     setNotice("El texto continúa en la página siguiente.");
   }
 
-  function addPiece(index: number, kind: Piece["kind"], value = "") {
-    const id = crypto.randomUUID();
+  function addPiece(index: number, kind: Piece["kind"], value = "", id = crypto.randomUUID()) {
     const start = { photo: { x: 0.92, y: 0.7 }, note: { x: 0.09, y: 0.7 }, sticker: { x: 0.82, y: 0.16 } }[kind];
     updatePage(index, (page) => ({
       ...page,
@@ -153,10 +188,12 @@ export function Notebook() {
     const target = pageIndex;
     setImporting(true);
     try {
-      addPiece(target, "photo", await prepareNotebookPhoto(file));
+      const id = crypto.randomUUID();
+      const photo = await prepareNotebookPhoto(file);
+      addPiece(target, "photo", await uploadPhoto(id, photo), id);
       setNotice("Foto añadida a la página.");
     } catch {
-      setNotice("No se pudo importar. Elige una foto JPG, PNG o WebP de hasta 10 MB.");
+      setNotice("No se pudo subir la foto. Elige un JPG, PNG o WebP de hasta 10 MB y revisa tu conexión.");
     } finally {
       setImporting(false);
     }
@@ -301,7 +338,15 @@ export function Notebook() {
           </div>
         )}
         <div className="notebook-meta">
-          <p role="status">{saveState}</p>
+          <p>{notebookSaveMessages[status]}</p>
+          <p role="status" className="sr-only">
+            {status !== "saved" && status !== "saving" ? notebookSaveMessages[status] : ""}
+          </p>
+          {(status === "network" || status === "limit") && (
+            <button type="button" onClick={() => void flush()}>
+              Reintentar guardado
+            </button>
+          )}
           <button type="button" onClick={() => setShowFavorites((open) => !open)} aria-expanded={showFavorites}>
             <Star aria-hidden="true" size={16} /> Ver favoritas
           </button>
@@ -328,17 +373,60 @@ export function Notebook() {
 
   return (
     <div className="notebook">
+      <Link
+        href="/journal"
+        className="chis-dark-link text-sm"
+        onNavigate={(event) => {
+          event.preventDefault();
+          void flush().then((saved) => {
+            if (saved) router.push("/journal");
+          });
+        }}
+      >
+        <ArrowLeft aria-hidden="true" size={18} /> Volver a GTA 6 Journal
+      </Link>
       <div className="notebook-heading">
         <div>
           <h1 className="notebook-title">
             GTA 6 <span>Journal</span>
           </h1>
-          <p>Tu libreta se guarda en este navegador.</p>
+          <p>Tu libreta es privada y se guarda en tu cuenta.</p>
         </div>
         <button className="action journal-hero-secondary" type="button" onClick={openImmersive}>
           <Maximize2 aria-hidden="true" size={18} /> Modo inmersivo
         </button>
       </div>
+      {localCopy && !importedLocal && (
+        <div className="notebook-import" aria-label="Libreta anterior">
+          {confirmImport ? (
+            <>
+              <p>
+                Importa estas páginas solo si son tuyas. Se añadirán a esta cuenta sin borrar la copia del navegador.
+              </p>
+              <button
+                className="action journal-hero-primary"
+                type="button"
+                disabled={importingLocal}
+                onClick={() => void importLocalNotebook()}
+              >
+                {importingLocal ? "Importando libreta…" : "Confirmar importación"}
+              </button>
+              <button
+                className="action journal-hero-secondary"
+                type="button"
+                disabled={importingLocal}
+                onClick={() => setConfirmImport(false)}
+              >
+                Cancelar
+              </button>
+            </>
+          ) : (
+            <button className="action journal-hero-secondary" type="button" onClick={() => setConfirmImport(true)}>
+              Importar libreta de este navegador
+            </button>
+          )}
+        </div>
+      )}
       {!expanded && editor()}
       <dialog
         ref={dialog}

@@ -25,7 +25,7 @@ export function openNotebook(): Promise<IDBDatabase> {
   });
 }
 
-type NotebookSnapshot = { pages: NotebookPage[]; pageIndex: number };
+export type NotebookSnapshot = { pages: NotebookPage[]; pageIndex: number; importedLocal: boolean };
 
 export function readNotebook(db: IDBDatabase): Promise<NotebookSnapshot> {
   return new Promise((resolve, reject) => {
@@ -37,19 +37,9 @@ export function readNotebook(db: IDBDatabase): Promise<NotebookSnapshot> {
       const index = saved?.pageIndex;
       const pageIndex =
         typeof index === "number" && Number.isInteger(index) ? Math.max(0, Math.min(index, pages.length - 1)) : 0;
-      resolve({ pages, pageIndex });
+      resolve({ pages, pageIndex, importedLocal: false });
     };
     request.onerror = () => reject(request.error);
-  });
-}
-
-export function saveNotebook(db: IDBDatabase, snapshot: NotebookSnapshot): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction("notebooks", "readwrite");
-    transaction.objectStore("notebooks").put(snapshot, "personal");
-    transaction.oncomplete = () => resolve();
-    transaction.onabort = () => reject(transaction.error);
-    transaction.onerror = () => reject(transaction.error);
   });
 }
 

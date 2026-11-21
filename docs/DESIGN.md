@@ -205,6 +205,6 @@ Los accesos de cuenta aparecen sobre el video, en la esquina superior derecha. L
 
 ## 15. Libreta personal
 
-El editor usa hojas rayadas, un lomo central en escritorio y una hoja visible en móvil. La escritura fluye a la siguiente página al agotarse los renglones. Fotos, post-its y stickers se colocan sobre el papel y se pueden mover con el puntero o el teclado. El modo inmersivo abre la misma libreta en un diálogo. Los datos se guardan en IndexedDB del navegador.
+El editor usa hojas rayadas, un lomo central en escritorio y una hoja visible en móvil. La escritura fluye a la siguiente página al agotarse los renglones. Fotos, post-its y stickers se colocan sobre el papel y se pueden mover con el puntero o el teclado. El modo inmersivo abre la misma libreta en un diálogo. La libreta requiere sesión. El texto y la composición se guardan en Supabase. Las fotos se sirven desde un depósito privado.
 
-La cabecera del editor y el modo inmersivo llevan la marca GTA 6 Journal. La cinta del lomo señala la hoja activa. La libreta recupera esa página al volver a abrirla en el mismo navegador.
+La cabecera del editor y el modo inmersivo llevan la marca GTA 6 Journal. La cinta del lomo señala la hoja activa. La libreta recupera esa página al volver a abrirla con la misma cuenta.

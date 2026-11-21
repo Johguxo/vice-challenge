@@ -8,7 +8,7 @@ La web de Team Chis reúne varias apps. GTA 6 Journal es el diario de aventuras 
 | ---------------------- | --------------------------------------- |
 | `/`                    | Hub de Team Chis con un acceso por app  |
 | `/journal`             | Entrada de GTA 6 Journal                |
-| `/journal/write`       | Libreta local de Mi diario              |
+| `/journal/write`       | Libreta privada por cuenta              |
 | `/journal/stories`     | Mural de historias y diarios de ejemplo |
 | `/journal/[username]`  | Diario de ejemplo de un jugador         |
 | `/challenges`          | Portada de Vice Challenges              |
@@ -26,7 +26,7 @@ Cada app vive bajo `app/<app>/`. Los componentes y servicios compartidos viven e
 3. **Mi exploración.** Álbumes, lugares y categorías creados por el jugador, actividades, búsqueda y filtros.
 4. **Eventos de Leonida.** Módulo independiente con inscripciones, búsqueda y una bandera de activación.
 
-La libreta guarda texto, fotos, recortes y favoritas en IndexedDB. La sincronización por cuenta queda para el diario privado. El mural y los diarios por jugador usan datos de ejemplo de `lib/journal.ts`.
+La libreta guarda texto, recortes y favoritas en PostgreSQL y las fotos en Supabase Storage privado. Las libretas antiguas de IndexedDB se pueden importar explícitamente una vez por cuenta. El mural y los diarios por jugador usan datos de ejemplo de `lib/journal.ts`.
 
 ---
 

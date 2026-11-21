@@ -1835,3 +1835,17 @@ body:has(> .journal-landing) > .site-header {
     animation: chis-page-in 160ms ease-out both;
   }
 }
+
+.notebook-import {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block: 0.75rem 1rem;
+}
+
+.notebook-import p {
+  flex-basis: 100%;
+  max-width: 58ch;
+  color: var(--color-ink-muted);
+}

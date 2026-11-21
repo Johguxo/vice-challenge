@@ -22,4 +22,4 @@ export async function proxy(request: NextRequest) {
   return response;
 }
 
-export const config = { matcher: ["/journal", "/journal/access/:path*"] };
+export const config = { matcher: ["/journal", "/journal/write", "/journal/access/:path*"] };
