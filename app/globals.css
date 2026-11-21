@@ -1410,6 +1410,16 @@ body:has(> .journal-landing) > .site-header {
 }
 
 /* Personal notebook. Only the note decorations cover the writing surface. */
+.notebook-workspace {
+  width: 100%;
+  max-width: 100rem;
+  margin-inline: auto;
+  padding: 0.75rem clamp(0.9rem, 3vw, 2.25rem) 1.5rem;
+}
+
+.notebook-workspace .notebook {
+  --notebook-row: clamp(2rem, 4.2svh, 2.6rem);
+}
 .notebook {
   --notebook-rule: color-mix(in srgb, var(--color-paper-muted) 27%, var(--color-paper));
   --notebook-ink: var(--color-paper-ink);
@@ -1451,6 +1461,9 @@ body:has(> .journal-landing) > .site-header {
 .notebook-spread {
   display: grid;
   min-width: 0;
+}
+
+.notebook-paper {
   border-radius: 0.4rem 0.75rem 0.75rem 0.4rem;
   border: 1px solid var(--notebook-rule);
   background: var(--color-paper);
@@ -1521,8 +1534,22 @@ body:has(> .journal-landing) > .site-header {
   color: var(--color-paper-muted);
 }
 
-.notebook-lines:focus-visible {
-  outline-offset: 4px;
+.notebook-lines:focus {
+  outline: none;
+  caret-color: var(--notebook-ink);
+}
+
+.notebook-sheet:has(.notebook-lines:focus-visible) .notebook-page-number span {
+  color: var(--notebook-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}
+
+@media (forced-colors: active) {
+  .notebook-sheet:has(.notebook-lines:focus-visible) .notebook-page-number span {
+    color: CanvasText;
+  }
 }
 
 .notebook-piece {
@@ -1564,7 +1591,6 @@ body:has(> .journal-landing) > .site-header {
 }
 
 .notebook-piece button:hover,
-.notebook-tools button:hover,
 .notebook-picker button:hover {
   background: color-mix(in srgb, var(--color-paper-muted) 18%, transparent);
 }
@@ -1632,11 +1658,10 @@ body:has(> .journal-landing) > .site-header {
 .notebook-tools {
   justify-content: space-between;
   gap: 0.25rem 1rem;
-  margin-block-start: 1.15rem;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--color-paper-line);
-  border-radius: 0.25rem;
-  background: var(--color-paper);
+  padding: 0.3rem clamp(0.55rem, 2.5vw, 1.6rem);
+  border-block-start: 1px solid var(--notebook-rule);
+  border-radius: 0 0 0.65rem 0.35rem;
+  background: color-mix(in srgb, var(--color-paper) 89%, var(--color-paper-line));
   color: var(--notebook-ink);
 }
 
@@ -1660,8 +1685,18 @@ body:has(> .journal-landing) > .site-header {
   cursor: default;
 }
 
+.notebook-tools button:not(:disabled):is(:hover, :focus-visible),
 .notebook-tools button[aria-pressed="true"] {
-  background: color-mix(in srgb, var(--color-marker) 40%, var(--color-paper));
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.notebook-tools button:focus-visible {
+  outline-color: var(--notebook-ink);
+}
+
+.notebook-tools button:active:not(:disabled) {
+  color: var(--color-vice-deep);
 }
 
 .notebook-pagination button {
@@ -1676,6 +1711,7 @@ body:has(> .journal-landing) > .site-header {
 }
 
 .notebook-meta {
+  margin-block-start: 0.65rem;
   justify-content: space-between;
   color: var(--color-ink-muted);
   font-size: 0.875rem;
@@ -1730,7 +1766,7 @@ body:has(> .journal-landing) > .site-header {
 
 @media (width >= 48rem) {
   .notebook-heading {
-    min-height: 8.5rem;
+    min-height: 5.5rem;
     background: url("/journal/pencil-motel.webp") 62% bottom / auto 98% no-repeat;
   }
 

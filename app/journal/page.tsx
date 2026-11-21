@@ -2,13 +2,9 @@ import { ArrowUpRight, BookOpen } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { Caveat } from "next/font/google";
 import { Suspense } from "react";
 import { JournalAccountLinks, JournalGuestLinks } from "@/components/journal/account-links";
 import { HeroVideo } from "@/components/journal/hero-video";
-import { Notebook } from "@/components/journal/notebook";
-
-const handwriting = Caveat({ subsets: ["latin"], variable: "--font-notebook-hand" });
 
 export const metadata: Metadata = {
   title: "GTA 6 Journal",
@@ -51,22 +47,14 @@ export default function JournalPage() {
             recordar.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-3">
-            <a href="#mi-diario" className="action journal-hero-primary">
+            <Link id="mi-diario" href="/journal/write" className="action journal-hero-primary">
               <BookOpen aria-hidden="true" className="size-5" /> Abrir mi diario
-            </a>
+            </Link>
             <Link href="/journal/stories" className="action journal-hero-secondary">
               Explorar historias <ArrowUpRight aria-hidden="true" className="size-5" />
             </Link>
           </div>
         </div>
-      </section>
-
-      <section
-        id="mi-diario"
-        className={`page-frame notebook-section scroll-mt-12 py-10 sm:py-16 ${handwriting.variable}`}
-        aria-labelledby="notebook-title"
-      >
-        <Notebook />
       </section>
     </main>
   );

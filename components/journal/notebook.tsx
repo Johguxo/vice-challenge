@@ -224,64 +224,66 @@ export function Notebook() {
   function editor() {
     return (
       <div className="notebook-body">
-        <div className="notebook-spread" data-page={pageIndex + 1}>
-          {renderPage(spreadStart)}
-          {renderPage(spreadStart + 1)}
-        </div>
-        <div className="notebook-tools" aria-label="Herramientas de página">
-          <div className="notebook-tools-group">
-            <label className="sr-only" htmlFor="notebook-photo">
-              Elige una foto para la libreta
-            </label>
-            <input
-              ref={fileInput}
-              id="notebook-photo"
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              hidden
-              onChange={importPhoto}
-            />
-            <button type="button" disabled={!ready || importing} onClick={() => fileInput.current?.click()}>
-              <ImagePlus aria-hidden="true" size={19} /> {importing ? "Importando…" : "Foto"}
-            </button>
-            <button type="button" disabled={!ready} onClick={() => addPiece(pageIndex, "note")}>
-              <StickyNote aria-hidden="true" size={19} /> Post-it
-            </button>
-            <button
-              type="button"
-              disabled={!ready}
-              aria-expanded={stickerPicker}
-              onClick={() => setStickerPicker((open) => !open)}
-            >
-              <Sticker aria-hidden="true" size={19} /> Sticker
-            </button>
-            <button type="button" disabled={!ready} aria-pressed={activePage.favorite} onClick={toggleFavorite}>
-              <Star aria-hidden="true" size={19} fill={activePage.favorite ? "currentColor" : "none"} />
-              {activePage.favorite ? "Quitar de favoritas" : "Guardar favorita"}
-            </button>
+        <div className="notebook-paper">
+          <div className="notebook-spread" data-page={pageIndex + 1}>
+            {renderPage(spreadStart)}
+            {renderPage(spreadStart + 1)}
           </div>
-          <div className="notebook-tools-group notebook-pagination" aria-label="Páginas">
-            <button
-              type="button"
-              aria-label="Página anterior"
-              disabled={pageIndex === 0}
-              onClick={() => openPage(pageIndex - 1)}
-            >
-              <ChevronLeft aria-hidden="true" size={20} />
-            </button>
-            <span>Pág. {pageIndex + 1}</span>
-            <button
-              type="button"
-              aria-label={pageIndex + 1 < pages.length ? "Página siguiente" : "Nueva página"}
-              disabled={!ready}
-              onClick={() => openPage(pageIndex + 1)}
-            >
-              {pageIndex + 1 < pages.length ? (
-                <ChevronRight aria-hidden="true" size={20} />
-              ) : (
-                <Plus aria-hidden="true" size={20} />
-              )}
-            </button>
+          <div className="notebook-tools" role="group" aria-label="Herramientas de página">
+            <div className="notebook-tools-group">
+              <label className="sr-only" htmlFor="notebook-photo">
+                Elige una foto para la libreta
+              </label>
+              <input
+                ref={fileInput}
+                id="notebook-photo"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+                onChange={importPhoto}
+              />
+              <button type="button" disabled={!ready || importing} onClick={() => fileInput.current?.click()}>
+                <ImagePlus aria-hidden="true" size={19} /> {importing ? "Importando…" : "Foto"}
+              </button>
+              <button type="button" disabled={!ready} onClick={() => addPiece(pageIndex, "note")}>
+                <StickyNote aria-hidden="true" size={19} /> Post-it
+              </button>
+              <button
+                type="button"
+                disabled={!ready}
+                aria-expanded={stickerPicker}
+                onClick={() => setStickerPicker((open) => !open)}
+              >
+                <Sticker aria-hidden="true" size={19} /> Sticker
+              </button>
+              <button type="button" disabled={!ready} aria-pressed={activePage.favorite} onClick={toggleFavorite}>
+                <Star aria-hidden="true" size={19} fill={activePage.favorite ? "currentColor" : "none"} />
+                {activePage.favorite ? "Quitar de favoritas" : "Guardar favorita"}
+              </button>
+            </div>
+            <div className="notebook-tools-group notebook-pagination" role="group" aria-label="Páginas">
+              <button
+                type="button"
+                aria-label="Página anterior"
+                disabled={pageIndex === 0}
+                onClick={() => openPage(pageIndex - 1)}
+              >
+                <ChevronLeft aria-hidden="true" size={20} />
+              </button>
+              <span>Pág. {pageIndex + 1}</span>
+              <button
+                type="button"
+                aria-label={pageIndex + 1 < pages.length ? "Página siguiente" : "Nueva página"}
+                disabled={!ready}
+                onClick={() => openPage(pageIndex + 1)}
+              >
+                {pageIndex + 1 < pages.length ? (
+                  <ChevronRight aria-hidden="true" size={20} />
+                ) : (
+                  <Plus aria-hidden="true" size={20} />
+                )}
+              </button>
+            </div>
           </div>
         </div>
         {stickerPicker && (
@@ -323,9 +325,7 @@ export function Notebook() {
     <div className="notebook">
       <div className="notebook-heading">
         <div>
-          <h2 id="notebook-title" className="notebook-title">
-            Mi diario
-          </h2>
+          <h1 className="notebook-title">Mi diario</h1>
           <p>Tu libreta se guarda en este navegador.</p>
         </div>
         <button className="action journal-hero-secondary" type="button" onClick={openImmersive}>

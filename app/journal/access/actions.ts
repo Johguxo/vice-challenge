@@ -68,7 +68,7 @@ export async function submitJournalAccess(_previous: AccessState, form: FormData
     };
   }
 
-  redirect("/journal#mi-diario");
+  redirect("/journal/write");
 }
 
 export async function signOutJournal() {

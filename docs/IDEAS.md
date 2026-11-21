@@ -7,7 +7,8 @@ La web de Team Chis reúne varias apps. GTA 6 Journal es el diario de aventuras 
 | Ruta                   | Qué muestra                             |
 | ---------------------- | --------------------------------------- |
 | `/`                    | Hub de Team Chis con un acceso por app  |
-| `/journal`             | Libreta local de Mi diario              |
+| `/journal`             | Entrada de GTA 6 Journal                |
+| `/journal/write`       | Libreta local de Mi diario              |
 | `/journal/stories`     | Mural de historias y diarios de ejemplo |
 | `/journal/[username]`  | Diario de ejemplo de un jugador         |
 | `/challenges`          | Portada de Vice Challenges              |
