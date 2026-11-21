@@ -1,6 +1,6 @@
 # Apps e ideas de Team Chis
 
-La web de Team Chis reúne varias apps. GTA Journal es el diario de aventuras y Vice Challenges es la app de retos. Las rutas de apps van en inglés y los textos visibles en español.
+La web de Team Chis reúne varias apps. GTA 6 Journal es el diario de aventuras y Vice Challenges es la app de retos. Las rutas de apps van en inglés y los textos visibles en español.
 
 ## Rutas actuales
 

@@ -23,7 +23,7 @@ const apps = [
   {
     href: "/journal",
     name: "Diario",
-    brand: "GTA Journal",
+    brand: "GTA 6 Journal",
     description: "Abre tu cuaderno y explora recuerdos de Leonida.",
     status: "Nueva",
     icon: NotebookPen,

@@ -197,6 +197,6 @@ Retos es neón y paneles oscuros; el Diario es **papel sobre la noche**. Misma e
 
 La portada `/` presenta el selector de apps sobre la escena de atardecer. La muestra del diario en `/journal` usa el cuaderno abierto `.chis-book`, los tokens de papel y las ilustraciones originales de `Postcard`. En pantallas estrechas, las dos hojas se leen en orden vertical. El mural vive en `/journal/stories`.
 
-## 14. Entrada de GTA Journal
+## 14. Entrada de GTA 6 Journal
 
-`/journal` abre con una imagen costera original a sangre. El título domina la primera pantalla y el botón «Abrir mi diario» lleva al cuaderno de papel. El fondo se sirve en WebP. La portada general conserva el selector de apps.
+`/journal` usa el MP4 entregado por el equipo como fondo a pantalla completa, en bucle y silenciado. El equipo autorizó esta excepción al material original para ese archivo y esa ruta. El botón de pausa y la preferencia de movimiento reducido muestran la foto costera original. «Abrir mi diario» baja al cuaderno. La cabecera compartida se oculta en esta pantalla.

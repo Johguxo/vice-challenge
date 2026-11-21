@@ -1179,14 +1179,17 @@ button.chis-dark-link:not(:disabled) {
   }
 }
 
-/* GTA Journal cinematic entry. The shared app selector keeps its own visual. */
+/* GTA 6 Journal cinematic entry. */
+body:has(> .journal-landing) > .site-header {
+  display: none;
+}
 .journal-hero {
   position: relative;
   isolation: isolate;
   display: grid;
   align-items: center;
-  min-height: calc(100vh - 4rem);
-  min-height: calc(100svh - 4rem);
+  min-height: 100vh;
+  min-height: 100svh;
   background: var(--color-night);
   color: var(--color-ink);
 }
@@ -1197,13 +1200,48 @@ button.chis-dark-link:not(:disabled) {
   object-position: 65% center;
 }
 
+.journal-hero-video {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  visibility: hidden;
+}
+
+.journal-hero-video[data-playing="true"] {
+  visibility: visible;
+}
+
+.journal-video-control {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: max(1rem, env(safe-area-inset-top));
+  inset-inline-end: max(1rem, env(safe-area-inset-right));
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  border: 1px solid var(--color-ink-muted);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-night) 80%, transparent);
+  color: var(--color-ink);
+}
+
+.journal-video-control:hover {
+  background: var(--color-surface-2);
+}
+
 .journal-hero::before {
   position: absolute;
   z-index: -1;
   inset: 0;
   content: "";
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--color-night) 85%, transparent), transparent 96%),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-night) 94%, transparent), transparent 98%),
     linear-gradient(0deg, var(--color-night), transparent 42%);
 }
 
@@ -1262,33 +1300,12 @@ button.chis-dark-link:not(:disabled) {
   background: var(--color-surface-2);
 }
 
-.journal-hero-scroll {
-  display: none;
-}
-
-@media (width >= 48rem) {
-  .journal-hero-scroll {
-    position: absolute;
-    inset-block-end: 0;
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    border: 1px solid var(--color-ink-muted);
-    border-radius: 50%;
-  }
-
-  .journal-hero-scroll:hover {
-    background: var(--color-surface-2);
-  }
-}
-
 @media (width < 40rem) {
   .journal-hero::before {
     background: linear-gradient(
       0deg,
       var(--color-night),
-      color-mix(in srgb, var(--color-night) 48%, transparent) 65%,
+      color-mix(in srgb, var(--color-night) 72%, transparent) 68%,
       transparent
     );
   }

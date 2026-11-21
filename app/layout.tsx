@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   title: { default: "Team Chis", template: "%s | Team Chis" },
   openGraph: { siteName: "Team Chis", locale: "es_419", type: "website" },
   twitter: { card: "summary_large_image" },
-  description: "Explora los retos de Vice Challenges y guarda tus aventuras en GTA Journal.",
+  description: "Explora los retos de Vice Challenges y guarda tus aventuras en GTA 6 Journal.",
 };
 
 export const viewport: Viewport = { themeColor: "#0b0612" };
